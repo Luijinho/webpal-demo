@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Student Page</title>
+    </head>
+    <body>
+        <div>ola</div>
+    </body>
+</html>
+
+<html lang='en'>
+    <head>
+        <script type='text/javascript' src='main.js'></script>
+        <title>Professor</title>
+    </head>
+    <body>
+        <div id='calc'>
+            <div id='inputs'>
+                <input placeholder='input1' id='input1' type='number'>
+                <input placeholder='input2' id='input2' type='number'>
+            </div>
+            <p id='sum'>0</p>
+            <button id='sumBtn'>SUM</button>
+        </div>
+    </body>
+</html>
+
+window.onload = function(){
+    const btn = document.querySelector('#sumBtn'); 
+    const input1 = document.querySelector('#input1'); 
+    const input2 = document.querySelector('#input2'); 
+    let sumAux = 0;
+    btn.addEventListener('click', ()=>{
+        const sum = document.querySelector('#sum'); 
+        sumAux = parseInt(input1.value) + parseInt(input2.value);    
+        sum.innerHTML = sumAux;
+    })
+}
