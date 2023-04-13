@@ -2,7 +2,7 @@
     "teste": [
         {
             "filename": "index.html",
-            "code": "<html lang='en'><head><script type='text/javascript' src='main.js'></script><title>Professor</title></head><body><div id='calc'><div id='inputs'><input placeholder='input1' id='input1' type='number'><input placeholder='input2' id='input2' type='number'></div><p id='sum'>0</p><button id='sumBtn'>SUM</button></div></body></html>"
+            "code": "<html lang='en'><head><link rel='stylesheet' href='style.css'><script type='text/javascript' src='main.js'></script><title>Professor</title></head><body><div id='calc'><div id='inputs'><input placeholder='input1' id='input1' type='number'><input placeholder='input2' id='input2' type='number'></div><p id='sum'>0</p><button id='sumBtn'>SUM</button></div></body></html>"
         },
         {
             "filename": "style.css",

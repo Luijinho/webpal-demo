@@ -156,16 +156,26 @@ export default {
         var studentHTML = this.codeHTML;
 
         const jsFileName = this.jsFile.split('.')[0];
+        const cssFileName = this.cssFile.split('.')[0];
 
         const scriptRegex = new RegExp(`<script[^>]*src=['"]${jsFileName}\\.js['"][^>]*><\\/script>`, 'i');
         const scriptMatch = studentHTML.match(scriptRegex);
 
+        const styleRegex = new RegExp(`<link[^>]*href=['"]${cssFileName}\\.css['"][^>]*>`, 'i');
+        const cssMatch = studentHTML.match(styleRegex);
+
         if (scriptMatch) {
             if (this.codeJS) {
                 const scriptTag = `<script>${this.codeJS}<`+`/script>`;
-                studentHTML = studentHTML.replace(/<`+`\/body>\s*<\/html>/i, `${scriptTag}<`+`/body><`+`/html>`);
-                console.log(studentHTML)
+                studentHTML = studentHTML.replace(/<\/body>\s*<\/html>/i, `${scriptTag}</body></html>`);
             }
+        }
+
+        if (cssMatch) {
+          if (this.codeCSS) {
+              const styleTag = `<style>${this.codeCSS}<`+`/style>`;
+              studentHTML = studentHTML.replace(/<\/head>/i, `${styleTag}</head>`);
+          }
         }
 
         document.querySelector('.studentFrame').setAttribute('srcdoc', studentHTML);
