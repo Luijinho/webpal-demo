@@ -10,8 +10,13 @@ app.use(cors());
 
 app.post('/createExercise', (req, res) => {
     const solutionData = req.body;
+    console.log(solutionData)
     const id = webpal.createExercise(solutionData.code, solutionData.tests, solutionData.assignment);
     res.send(id);
+});
+
+app.get('/getAllExercises', (req, res) => {
+    res.json(webpal.getAllExercises());
 });
 
 app.post('/evaluateExercise', async (req, res) => {

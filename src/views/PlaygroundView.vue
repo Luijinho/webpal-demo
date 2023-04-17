@@ -1,15 +1,34 @@
 <template>
-  <body>
+  <body :class="{ 'no-exercises': exercises.length === 0 }">
     <header>
+      <div class="hamburger" @click="toggleSidebar">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+      </div>
+      <div class="sidebar" v-show="showSidebar">
+        <button class="close-btn" @click="toggleSidebar">Close</button>
+        <button class="backoffice-btn" @click="backofficeRedirect">Backoffice</button>
+        <h2>Exercises</h2>
+        <ul>
+          <li v-for="(exercise, index) in exercises" :key="index" @click="updateExercise(exercise)">
+            {{ exercise.assignment }}
+          </li>
+        </ul>
+      </div>
+
+      <div class="no-exercises-popup" v-show="!exercises.length">
+        <p>No exercises available</p>
+      </div>
+
+
       <div class="executionBtns">
         <button class="btns" @click="executeCode">Execute</button>
         <div class="divider"></div>
-        <button class="btns" @click="submitCode">Submit</button>
+        <button v-if="!exercises.length" disabled class="btns" @click="submitCode">Submit</button>
+        <button v-else class="btns" @click="submitCode">Submit</button>
       </div>
-      <div class="title">Code Playground</div>
-      <div class="backBtn">
-        <button class="btns" @click="goToExercises">Back</button>
-      </div>
+      <div class="title">Webpal Playground</div>
     </header>
     <div class="codeEditors">
   <div class="codeHTML">
@@ -19,7 +38,7 @@
       <codemirror
         v-model="codeHTML"
         placeholder="HTML goes here..."
-        :style="{ height: '200px', width: '100%', textAlign: 'left' }"
+        :style="{ height: '200px', width: '100%', textAlign: 'left', backgroundColor: 'white' }"
         :autofocus="true"
         :indent-with-tab="true"
         :tab-size="4"
@@ -35,7 +54,7 @@
       <codemirror
         v-model="codeCSS"
         placeholder="CSS goes here..."
-        :style="{ height: '200px', width: '100%', textAlign: 'left' }"
+        :style="{ height: '200px', width: '100%', textAlign: 'left', backgroundColor: 'white' }"
         :autofocus="true"
         :indent-with-tab="true"
         :tab-size="4"
@@ -51,7 +70,7 @@
       <codemirror
         v-model="codeJS"
         placeholder="Javascript goes here..."
-        :style="{ height: '200px', width: '100%', textAlign: 'left' }"
+        :style="{ height: '200px', width: '100%', textAlign: 'left', backgroundColor: 'white' }"
         :options="{
           mode: 'javascript',
           extraKeys: {'Ctrl-Space': 'autocomplete'}
@@ -109,9 +128,9 @@ export default {
     const codeHTML = ``
     const codeCSS = ``
     const codeJS = ``
-    const htmlFile = ``
-    const cssFile = ``
-    const jsFile = ``
+    const htmlFile = `index.html`
+    const cssFile = `style.css`
+    const jsFile = `main.js`
 
     return {
         extensionsHTML,
@@ -127,28 +146,29 @@ export default {
   },
   data() {
     return {
-        solutionFiles: JSON.parse(this.$route.params.exerciseData),
         professorHTML: '',
         exercise: '',
         exerciseID: '',
         feedback: '',
-        showModal: false
+        showModal: false,
+        exercises: [],
+        showSidebar: false,
     }
   },
   methods: {
-    async createExerciseWebpal(code, tests, assignment) {
-      try {
-        const response = await axios.post('http://localhost:8085/createExercise', {
-          code,
-          tests,
-          assignment
-        });
-        console.log("ID: " + response.data)
-        this.exerciseID = response.data;
-      } catch (error) {
-        console.error(error);
-      }
+    toggleSidebar() {
+      this.showSidebar = !this.showSidebar;
+      document.querySelector(".sidebar").classList.toggle("open");
     },
+
+    async updateExercise(exercise) {
+      // Update the page with the new exercise data
+      this.exercise = exercise
+      
+      await this.generateSolutionInterface();
+      this.toggleSidebar();
+    },
+
     async evaluateExercise(id, attemptFiles, port, previousFeedback) {
       try {
         const response = await axios.post('http://localhost:8085/evaluateExercise', {
@@ -158,8 +178,16 @@ export default {
           previousFeedback
         });
         this.feedback = response.data;
-        console.log(this.feedback)
         this.showModal = true;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getAllExercises() {
+      try {
+        const response = await axios.get('http://localhost:8085/getAllExercises');
+        this.exercises = response.data;
+        console.log(this.exercises)
       } catch (error) {
         console.error(error);
       }
@@ -169,8 +197,8 @@ export default {
         let cssCode = '';
         let jsCode = '';
 
-        for (let i = 0; i < this.solutionFiles.length; i++) {
-            const file = this.solutionFiles[i];
+        for (let i = 0; i < this.exercise.data.data.length; i++) {
+            const file = this.exercise.data.data[i];
             const fileExtension = file.filename.split('.').pop();
 
             if (fileExtension === 'html') {
@@ -186,9 +214,6 @@ export default {
         const html = `<html><head>${cssCode}</head><body>${htmlCode}${jsCode}<`+`/body><`+`/html>`;
 
         this.professorHTML = html;
-    },
-    goToExercises(){
-      this.$router.push({name: 'Exercises'}) 
     },
     executeCode() {
         var studentHTML = this.codeHTML;
@@ -218,6 +243,9 @@ export default {
 
         document.querySelector('.studentFrame').setAttribute('srcdoc', studentHTML);
     },
+    backofficeRedirect() {
+      this.$router.push({ name: "Admin" });
+    },
     async submitCode(){
       const studentAttempt = [
         {
@@ -234,14 +262,14 @@ export default {
         }
       ]
 
-      await this.evaluateExercise(this.exerciseID, JSON.stringify(studentAttempt), 8090, [])
+      await this.evaluateExercise(this.exercise.exerciseID, JSON.stringify(studentAttempt), 8090, [])
     }
   },
   mounted(){
-    this.generateSolutionInterface()
-    this.createExerciseWebpal(JSON.stringify(this.solutionFiles), null, "test")
+    this.getAllExercises()
   }
 }
+
 </script>
 
 <style scoped>
@@ -253,14 +281,94 @@ header {
   position: relative;
 }
 
+.hamburger {
+  cursor: pointer;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+}
+
+.sidebar.open {
+  left: 0;
+}
+
+.close-btn {
+  position: absolute;
+  right: 10px;
+  font-size: 16px;
+  background-color: transparent;
+  text-decoration: underline;
+  border: none;
+  cursor: pointer;
+}
+.backoffice-btn {
+  top: 10px;
+  right: 10px;
+  font-size: 16px;
+  background-color: transparent;
+  text-decoration: underline;
+  border: none;
+  cursor: pointer;
+}
+
+.bar1,
+.bar2,
+.bar3 {
+  width: 35px;
+  height: 5px;
+  background-color: #5a5858;
+  margin: 3px 0;
+  transition: 0.4s;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -250px;
+  width: 250px;
+  height: 100%;
+  background-color: #f8f9fa;
+  padding: 15px;
+  z-index: 1000;
+  transition: left 0.3s ease;
+}
+
+.sidebar h2 {
+  padding-left: 10px;
+}
+
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar li {
+  padding: 8px 16px;
+  text-decoration: none;
+  font-size: 18px;
+  color: black;
+  display: block;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.sidebar li:hover {
+  color: white;
+  background-color: #555;
+}
+
+
 .title{
-  font-size: 40px;
+  font-size: 22px;
+  font-weight: bold;
 }
 
 .executionBtns{
   display: flex;
   position: absolute;
-  left: 0;
+  right: 0;
   top: 0;
   bottom: 0;
   margin: auto 0;
@@ -283,16 +391,9 @@ header {
 
 .btns {
   min-width: 80px;
-  min-height: 40px;
-  font-size: 16px;
+  max-height: 30px;
+  font-size: 14px;
 }
-
-/* .codeEditors {
-  display: flex;
-  justify-content: space-around;
-  margin-left: 1%;
-  margin-right: 1%;
-} */
 
 .codeEditors {
   display: flex;
@@ -305,7 +406,6 @@ header {
   width: 500px;
   overflow-x: auto;
 }
-
 
 .codeHTML {
   display: flex;
@@ -404,4 +504,21 @@ header {
   align-items: center;
 }
 
+.no-exercises-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  z-index: 999;
+}
+
+.no-exercises-popup p {
+  font-size: 18px;
+  color: #333;
+  margin: 0;
+}
 </style>
