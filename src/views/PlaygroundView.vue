@@ -92,15 +92,11 @@
       <iframe class="studentFrame" srcdoc="" frameborder="0"></iframe>
       <iframe class="professorFrame" :srcdoc="professorHTML" frameborder="0"></iframe>
     </div>
-    <div class="modal" v-show="showModal">
-      <div class="modal-content">
-        <div class="feedback">
-          <p>{{ feedback }}</p>
-        </div>
-        <div class="modal-buttons">
-          <button class="btns" @click="showModal = false">Close</button>
-        </div>
-      </div>
+    <div class="feedback-log">
+      <h3>Feedback Log:</h3>
+      <p class="feedback-entry" v-for="(entry, index) in feedbackLog" :key="index">
+        {{ entry.timestamp }} - {{ entry.feedback }}
+      </p>
     </div>
 
 
@@ -153,6 +149,7 @@ export default {
         showModal: false,
         exercises: [],
         showSidebar: false,
+        feedbackLog: []
     }
   },
   methods: {
@@ -178,7 +175,8 @@ export default {
           previousFeedback
         });
         this.feedback = response.data;
-        this.showModal = true;
+        const timestamp = new Date().toLocaleString();
+        this.feedbackLog.push({ timestamp, feedback: this.feedback });
       } catch (error) {
         console.error(error);
       }
