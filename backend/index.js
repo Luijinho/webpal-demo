@@ -15,6 +15,18 @@ app.post('/createExercise', (req, res) => {
     res.send(id);
 });
 
+app.post('/deleteExercise', (req, res) => {
+    const id = req.body.id;
+    webpal.deleteExercise(id);
+    res.status(200).send("Deleted");
+});
+
+app.post('/getFullExercise', (req, res) => {
+    const id = req.body.id;
+    const exercise = webpal.getFullExercise(id)
+    res.status(200).send(exercise);
+});
+
 app.get('/getAllExercises', (req, res) => {
     res.json(webpal.getAllExercises());
 });

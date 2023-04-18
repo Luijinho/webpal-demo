@@ -1,6 +1,8 @@
 <template>
+    <div v-if="submitSuccess" class="submit-success">Exercise created successfully!</div>
     <div class="exercise-creator">
       <header>
+        <Sidebar @exercise-details-received="handleExerciseDetailsReceived" />
         <div class="title">Backoffice - Create Exercise</div>
         <button @click="playgroundRedirect">Back to Playground</button>
       </header>
@@ -27,9 +29,14 @@
 </template>
   
 <script>
-    import axios from 'axios';
+  import axios from 'axios';
+  import Sidebar from '@/components/Sidebar.vue'
 
   export default {
+    name: 'AdminView',
+    components: {
+      Sidebar
+    },
     data() {
       return {
         assignment: "",
@@ -37,6 +44,7 @@
         jsTests: "",
         exercises: [],
         showSidebar: false,
+        submitSuccess: false,
       };
     },
     computed: {
@@ -62,9 +70,18 @@
                 });
                 console.log("ID: " + response.data)
                 this.exerciseID = response.data;
+                this.submitSuccess = true;
+                this.assignment = ``
+                this.jsonData = ``
+                this.jsTests = ``
             } catch (error) {
                 console.error(error);
             }
+        },
+        handleExerciseDetailsReceived(data) {
+          this.assignment = data.assignment
+          this.jsonData = JSON.stringify(data.data.data)
+          this.jsTests = data.testData
         },
         playgroundRedirect() {
             this.$router.push({ name: "Playground" });
@@ -74,6 +91,17 @@
 </script>
   
 <style scoped>
+
+.submit-success {
+    background-color: #dff0d8;
+    border-color: #d0e9c6;
+    color: #3c763d;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+  }
+
 .exercise-creator {
   display: flex;
   flex-direction: column;

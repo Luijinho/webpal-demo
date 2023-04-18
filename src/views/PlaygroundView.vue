@@ -1,21 +1,7 @@
 <template>
   <body :class="{ 'no-exercises': exercises.length === 0 }">
     <header>
-      <div class="hamburger" @click="toggleSidebar">
-        <div class="bar1"></div>
-        <div class="bar2"></div>
-        <div class="bar3"></div>
-      </div>
-      <div class="sidebar" v-show="showSidebar">
-        <button class="close-btn" @click="toggleSidebar">Close</button>
-        <button class="backoffice-btn" @click="backofficeRedirect">Backoffice</button>
-        <h2>Exercises</h2>
-        <ul>
-          <li v-for="(exercise, index) in exercises" :key="index" @click="updateExercise(exercise)">
-            {{ exercise.assignment }}
-          </li>
-        </ul>
-      </div>
+      <Sidebar @exercise-selected="updateExercise" />
 
       <div class="no-exercises-popup" v-show="!exercises.length">
         <p>No exercises available</p>
@@ -25,8 +11,8 @@
       <div class="executionBtns">
         <button class="btns" @click="executeCode">Execute</button>
         <div class="divider"></div>
-        <button v-if="!exercises.length" disabled class="btns" @click="submitCode">Submit</button>
-        <button v-else class="btns" @click="submitCode">Submit</button>
+        <button :disabled="!exercises.length" class="btns" @click="submitCode">Submit</button>
+
       </div>
       <div class="title">Webpal Playground</div>
     </header>
@@ -92,19 +78,21 @@
       <iframe class="studentFrame" srcdoc="" frameborder="0"></iframe>
       <iframe class="professorFrame" :srcdoc="professorHTML" frameborder="0"></iframe>
     </div>
+    
+
     <div class="feedback-log">
       <h3>Feedback Log:</h3>
       <p class="feedback-entry" v-for="(entry, index) in feedbackLog" :key="index">
-        {{ entry.timestamp }} - {{ entry.feedback }}
+        <span class="timestamp">{{ entry.timestamp }}</span>
+        <span class="message">{{ entry.feedback }}</span>
       </p>
     </div>
-
-
 
   </body>
 </template>
   
 <script>
+import Sidebar from '@/components/Sidebar.vue'
 import { Codemirror } from 'vue-codemirror'
 import { html } from '@codemirror/lang-html'
 import { css } from '@codemirror/lang-css'
@@ -115,6 +103,7 @@ export default {
   name: 'PlaygroundView',
   components: {
     Codemirror,
+    Sidebar
   },
 
   setup() {
@@ -153,17 +142,11 @@ export default {
     }
   },
   methods: {
-    toggleSidebar() {
-      this.showSidebar = !this.showSidebar;
-      document.querySelector(".sidebar").classList.toggle("open");
-    },
-
     async updateExercise(exercise) {
       // Update the page with the new exercise data
       this.exercise = exercise
       
       await this.generateSolutionInterface();
-      this.toggleSidebar();
     },
 
     async evaluateExercise(id, attemptFiles, port, previousFeedback) {
@@ -279,89 +262,15 @@ header {
   position: relative;
 }
 
-.hamburger {
-  cursor: pointer;
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  margin: auto 0;
-}
-
-.sidebar.open {
-  left: 0;
-}
-
-.close-btn {
-  position: absolute;
-  right: 10px;
-  font-size: 16px;
-  background-color: transparent;
-  text-decoration: underline;
-  border: none;
-  cursor: pointer;
-}
-.backoffice-btn {
-  top: 10px;
-  right: 10px;
-  font-size: 16px;
-  background-color: transparent;
-  text-decoration: underline;
-  border: none;
-  cursor: pointer;
-}
-
-.bar1,
-.bar2,
-.bar3 {
-  width: 35px;
-  height: 5px;
-  background-color: #5a5858;
-  margin: 3px 0;
-  transition: 0.4s;
-}
-
-.sidebar {
-  position: fixed;
-  top: 0;
-  left: -250px;
-  width: 250px;
-  height: 100%;
-  background-color: #f8f9fa;
-  padding: 15px;
-  z-index: 1000;
-  transition: left 0.3s ease;
-}
-
-.sidebar h2 {
-  padding-left: 10px;
-}
-
-.sidebar ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.sidebar li {
-  padding: 8px 16px;
-  text-decoration: none;
-  font-size: 18px;
-  color: black;
-  display: block;
-  transition: 0.3s;
-  cursor: pointer;
-}
-
-.sidebar li:hover {
-  color: white;
-  background-color: #555;
-}
-
-
-.title{
+.title {
   font-size: 22px;
   font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
 }
+
 
 .executionBtns{
   display: flex;
@@ -490,11 +399,6 @@ header {
   border-radius: 5px;
 }
 
-.feedback {
-  margin: 20px;
-  text-align: center;
-}
-
 .modal-buttons {
   margin-top: 20px;
   display: flex;
@@ -518,5 +422,38 @@ header {
   font-size: 18px;
   color: #333;
   margin: 0;
+}
+
+.feedback-log {
+  width: 80%;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  max-height: 300px;
+}
+
+.feedback-entry {
+  padding: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.feedback-entry:last-child {
+  border-bottom: none;
+}
+
+.feedback-entry .timestamp {
+  font-size: 12px;
+  color: #999;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.feedback-entry .message {
+  font-size: 14px;
+  color: #333;
 }
 </style>
