@@ -14,10 +14,10 @@
             {{ exercise.assignment }}
             <div class="button-container">
               <button @click.stop="editExercise(exercise.exerciseID)">
-                <i class="fas fa-edit"></i>
+                <i class="">Edit</i>
               </button>
               <button @click.stop="deleteExercise(exercise.exerciseID)">
-                <i class="fas fa-trash-alt"></i>
+                <i class="">Del</i>
               </button>
               </div>
           </li>
@@ -100,7 +100,6 @@
   
  
 <style scoped>
-@import "~@fortawesome/fontawesome-free/css/all.css";
 .hamburger {
   cursor: pointer;
   position: absolute;
