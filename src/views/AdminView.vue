@@ -14,8 +14,59 @@
         </div>
   
         <div class="form-group">
-          <label for="json-data">JSON Data:</label>
-          <textarea id="json-data" :placeholder="JSONDataPlaceholder" v-model="jsonData" required></textarea>
+          <div class="codeEditors">
+            <div class="codeHTML">
+              <div class="codeEditorWrapper">
+                <label for="htmlFile">HTML Filename:</label>
+                <input id="htmlFile" v-model="htmlFile" type="text">
+                <codemirror
+                  v-model="codeHTML"
+                  placeholder="HTML goes here..."
+                  :style="{ height: '200px', width: '100%', textAlign: 'left', backgroundColor: 'white' }"
+                  :autofocus="true"
+                  :indent-with-tab="true"
+                  :tab-size="4"
+                  :extensions="extensionsHTML"
+                />
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div class="codeCSS">
+              <div class="codeEditorWrapper">
+                <label for="cssFile">CSS Filename:</label>
+                <input id="cssFile" v-model="cssFile" type="text">
+                <codemirror
+                  v-model="codeCSS"
+                  placeholder="CSS goes here..."
+                  :style="{ height: '200px', width: '100%', textAlign: 'left', backgroundColor: 'white' }"
+                  :autofocus="true"
+                  :indent-with-tab="true"
+                  :tab-size="4"
+                  :extensions="extensionsCSS"
+                />
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div class="codeJS">
+              <div class="codeEditorWrapper">
+                <label for="jsFile">Javascript Filename:</label>
+                <input id="jsFile" v-model="jsFile" type="text">
+                <codemirror
+                  v-model="codeJS"
+                  placeholder="Javascript goes here..."
+                  :style="{ height: '200px', width: '100%', textAlign: 'left', backgroundColor: 'white' }"
+                  :options="{
+                    mode: 'javascript',
+                    extraKeys: {'Ctrl-Space': 'autocomplete'}
+                  }"
+                  :autofocus="true"
+                  :indent-with-tab="true"
+                  :tab-size="4"
+                  :extensions="extensionsJS"
+                />
+              </div>
+            </div>
+          </div>
         </div>
   
         <div class="form-group">
@@ -31,16 +82,45 @@
 <script>
   import axios from 'axios';
   import Sidebar from '@/components/Sidebar.vue'
+  import { Codemirror } from 'vue-codemirror'
+  import { html } from '@codemirror/lang-html'
+  import { css } from '@codemirror/lang-css'
+  import { javascript } from '@codemirror/lang-javascript'
 
   export default {
     name: 'AdminView',
     components: {
-      Sidebar
+      Sidebar,
+      Codemirror
     },
+
+    setup() {
+      const extensionsHTML = [html()]
+      const extensionsCSS = [css()]
+      const extensionsJS = [javascript()]
+      const codeHTML = ``
+      const codeCSS = ``
+      const codeJS = ``
+      const htmlFile = `index.html`
+      const cssFile = `style.css`
+      const jsFile = `main.js`
+
+      return {
+          extensionsHTML,
+          extensionsCSS,
+          extensionsJS,
+          codeHTML,
+          codeCSS,
+          codeJS,
+          htmlFile,
+          cssFile,
+          jsFile
+      }
+    },
+
     data() {
       return {
         assignment: "",
-        jsonData: "",
         jsTests: "",
         exercises: [],
         showSidebar: false,
@@ -48,44 +128,60 @@
       };
     },
     computed: {
-        JSONDataPlaceholder() {
-            return `EXAMPLE:\n[\n  {\n    "filename": "example.html",\n     "data": "<html>...</html>"\n  },\n  {\n    "filename": "style.css",\n     "data": "div {...}"\n  },\n  {\n    "filename": "script.js",\n     "data": "console.log('Hello World!');"\n  }\n]`;
-        },
         TestsPlaceholder() {
             return `EXAMPLE:\nconst assert = chai.assert;\n\ndescribe('Example Test', function() {\nconst sum = document.getElementById('sum');\n\n  it('should return true', function(done) {\n    assert.equal(true, sum.innerHTML);\n    done() \n  });\n});`;
         },
     },
     methods: {
-        async submitExercise() {
-            const jsonData = this.jsonData
-            const jsTests = this.jsTests
-            const assignment = this.assignment
+      generateJSON() {
+        const files = [
+          {
+            filename: this.htmlFile,
+            data: this.codeHTML
+          },
+          {
+            filename: this.cssFile,
+            data: this.codeCSS
+          },
+          {
+            filename: this.jsFile,
+            data: this.codeJS
+          }
+        ];
 
-            console.log(JSON.parse(jsonData))
-            try {
-                const response = await axios.post('http://localhost:8085/createExercise', {
-                code: jsonData,
-                tests: jsTests,
-                assignment: assignment
-                });
-                console.log("ID: " + response.data)
-                this.exerciseID = response.data;
-                this.submitSuccess = true;
-                this.assignment = ``
-                this.jsonData = ``
-                this.jsTests = ``
-            } catch (error) {
-                console.error(error);
-            }
-        },
-        handleExerciseDetailsReceived(data) {
-          this.assignment = data.assignment
-          this.jsonData = JSON.stringify(data.data.data)
-          this.jsTests = data.testData
-        },
-        playgroundRedirect() {
-            this.$router.push({ name: "Playground" });
-        },
+        return JSON.stringify(files, null, 2);
+      },
+
+      async submitExercise() {
+          const jsonData = this.generateJSON()
+          const jsTests = this.jsTests
+          const assignment = this.assignment
+
+          console.log(JSON.parse(jsonData))
+          try {
+              const response = await axios.post('http://localhost:8085/createExercise', {
+              code: jsonData,
+              tests: jsTests,
+              assignment: assignment
+              });
+              console.log("ID: " + response.data)
+              this.exerciseID = response.data;
+              this.submitSuccess = true;
+              this.assignment = ``
+              this.jsonData = ``
+              this.jsTests = ``
+          } catch (error) {
+              console.error(error);
+          }
+      },
+      handleExerciseDetailsReceived(data) {
+        this.assignment = data.assignment
+        this.jsonData = JSON.stringify(data.data.data)
+        this.jsTests = data.testData
+      },
+      playgroundRedirect() {
+          this.$router.push({ name: "Playground" });
+      },
     },
   };
 </script>
