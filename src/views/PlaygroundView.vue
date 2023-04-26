@@ -174,28 +174,28 @@ export default {
       }
     },
     generateSolutionInterface() {
-        let htmlCode = '';
-        let cssCode = '';
-        let jsCode = '';
+      let htmlCode = '';
+      let cssCode = '';
+      let jsCode = '';
 
-        for (let i = 0; i < this.exercise.data.data.length; i++) {
-            const file = this.exercise.data.data[i];
-            const fileExtension = file.filename.split('.').pop();
+      for (let i = 0; i < this.exercise.data.data.length; i++) {
+        const file = this.exercise.data.data[i];
+        const fileExtension = file.filename.split('.').pop();
 
-            if (fileExtension === 'html') {
-              const matches = file.code.match(/<body[^>]*>([\s\S]*)<\/body>/i);
-              htmlCode = matches ? matches[1] : '';
-            } else if (fileExtension === 'css') {
-              cssCode += `<style>${file.code}</style>`;
-            } else if (fileExtension === 'js') {
-              jsCode += `<script>${file.code}<` + `/script>`;
-            }
+        if (fileExtension === 'html') {
+          const matches = file.code.match(/<body[^>]*>([\s\S]*)<\/body>/i);
+          htmlCode = matches ? matches[1] : '';
+        } else if (fileExtension === 'css') {
+          cssCode += `<style>${file.code}</style>`;
+        } else if (fileExtension === 'js') {
+          jsCode += `<script>${file.code}<` + `/script>`;
         }
+      }
 
-        const html = `<html><head>${cssCode}</head><body>${htmlCode}${jsCode}<`+`/body><`+`/html>`;
-
-        this.professorHTML = html;
+      const html = `<html><head>${cssCode}</head><body>${htmlCode}${jsCode}<`+`/body><`+`/html>`;
+      this.professorHTML = html;
     },
+
     executeCode() {
         var studentHTML = this.codeHTML;
 

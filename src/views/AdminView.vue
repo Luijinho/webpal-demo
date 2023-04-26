@@ -137,15 +137,15 @@
         const files = [
           {
             filename: this.htmlFile,
-            data: this.codeHTML
+            code: this.codeHTML
           },
           {
             filename: this.cssFile,
-            data: this.codeCSS
+            code: this.codeCSS
           },
           {
             filename: this.jsFile,
-            data: this.codeJS
+            code: this.codeJS
           }
         ];
 
@@ -176,7 +176,18 @@
       },
       handleExerciseDetailsReceived(data) {
         this.assignment = data.assignment
-        this.jsonData = JSON.stringify(data.data.data)
+        data.data.data.forEach(item => {
+          if(item.filename.endsWith(".html")) {
+            this.htmlFile = item.filename
+            this.codeHTML = item.code
+          } else if(item.filename.endsWith(".css")) {
+            this.cssFile = item.filename
+            this.codeCSS = item.code
+          } else if(item.filename.endsWith(".js")) {
+            this.jsFile = item.filename
+            this.codeJS = item.code
+          }
+        })
         this.jsTests = data.testData
       },
       playgroundRedirect() {

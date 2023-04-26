@@ -43,6 +43,7 @@
         document.querySelector(".sidebar").classList.toggle("open");
       },
       async updateExercise(exercise) {
+        console.log(exercise)
         this.$emit("exercise-selected", exercise);
         this.toggleSidebar();
       },
