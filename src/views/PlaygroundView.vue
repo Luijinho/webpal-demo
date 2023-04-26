@@ -72,7 +72,7 @@
 
     <div class="frameTitles">
       <div>Student Frame</div>
-      <div>Professor Frame</div>
+      <div>Teacher Frame</div>
     </div>
     <div class="frames">
       <iframe class="studentFrame" srcdoc="" frameborder="0"></iframe>
