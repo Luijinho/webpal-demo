@@ -82,11 +82,13 @@
 
     <div class="feedback-log">
       <h3>Feedback Log:</h3>
-      <p class="feedback-entry" v-for="(entry, index) in feedbackLog" :key="index">
+      <button @click="clearFeedbackLog" class="clear-log-btn">Clear Log</button>
+      <p class="feedback-entry" v-for="(entry, index) in feedbackLog.slice().reverse()" :key="index">
         <span class="timestamp">{{ entry.timestamp }}</span>
         <span class="message">{{ entry.feedback }}</span>
       </p>
     </div>
+
 
   </body>
 </template>
@@ -148,7 +150,6 @@ export default {
       
       await this.generateSolutionInterface();
     },
-
     async evaluateExercise(id, attemptFiles, port, previousFeedback) {
       try {
         const response = await axios.post('http://localhost:8085/evaluateExercise', {
@@ -172,6 +173,9 @@ export default {
       } catch (error) {
         console.error(error);
       }
+    },
+    clearFeedbackLog() {
+      this.feedbackLog = [];
     },
     generateSolutionInterface() {
       let htmlCode = '';
@@ -433,6 +437,8 @@ header {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
   max-height: 300px;
+  overflow-y: auto;
+  max-height: 300px;
 }
 
 .feedback-entry {
@@ -456,4 +462,19 @@ header {
   font-size: 14px;
   color: #333;
 }
+
+.clear-log-btn {
+  background-color: #ff5722;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 10px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
 </style>
