@@ -464,7 +464,7 @@ header {
 }
 
 .clear-log-btn {
-  background-color: #ff5722;
+  background-color: #545352;
   border: none;
   color: white;
   padding: 5px 10px;
