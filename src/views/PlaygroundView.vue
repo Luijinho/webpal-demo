@@ -100,6 +100,7 @@ import { html } from '@codemirror/lang-html'
 import { css } from '@codemirror/lang-css'
 import { javascript } from '@codemirror/lang-javascript'
 import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
 
 export default {
   name: 'PlaygroundView',
@@ -149,6 +150,14 @@ export default {
       this.exercise = exercise
       
       await this.generateSolutionInterface();
+
+      const logData = {
+        exerciseID: exercise.exerciseID,
+        timestamp: new Date().toISOString(),
+        with_feedback: true,
+        feedback: 'Started exercise'
+      };
+      this.updateLog(logData);
     },
     async evaluateExercise(id, attemptFiles, port, previousFeedback) {
       try {
@@ -161,6 +170,13 @@ export default {
         this.feedback = response.data;
         const timestamp = new Date().toLocaleString();
         this.feedbackLog.push({ timestamp, feedback: this.feedback });
+        const logData = {
+          exerciseID: this.exercise.exerciseID,
+          timestamp: new Date().toISOString(),
+          with_feedback: true,
+          feedback: this.feedback
+        };
+        this.updateLog(logData);
       } catch (error) {
         console.error(error);
       }
@@ -200,6 +216,25 @@ export default {
       this.professorHTML = html;
     },
 
+    updateLog(logData) {
+      const userId = localStorage.getItem('userId');
+      const logEndpoint = 'http://localhost:8085/log';
+
+      const payload = {
+        userId: userId,
+        logContent: logData
+      };
+
+      axios
+        .post(logEndpoint, payload)
+        .then(() => {
+          console.log('Log data sent successfully');
+        })
+        .catch((error) => {
+          console.error('Failed to send log data:', error);
+        });
+    },
+
     executeCode() {
         var studentHTML = this.codeHTML;
 
@@ -231,27 +266,44 @@ export default {
     backofficeRedirect() {
       this.$router.push({ name: "Admin" });
     },
+    createUserId() {
+      if (!localStorage.getItem('userId')) {
+        const userId = uuidv4();
+        localStorage.setItem('userId', userId);
+      }
+      console.log(localStorage.getItem('userId'))
+    },
     async submitCode(){
-      const studentAttempt = [
-        {
+      const studentAttempt = []
+
+      if (this.codeHTML.trim() !== '') {
+        studentAttempt.push({
           filename: this.htmlFile,
           code: this.codeHTML
-        },
-        {
+        });
+      }
+
+      if (this.codeCSS.trim() !== '') {
+        studentAttempt.push({
           filename: this.cssFile,
           code: this.codeCSS
-        },
-        {
+        });
+      }
+
+      if (this.codeJS.trim() !== '') {
+        studentAttempt.push({
           filename: this.jsFile,
           code: this.codeJS
-        }
-      ]
+        });
+      }
 
       await this.evaluateExercise(this.exercise.exerciseID, JSON.stringify(studentAttempt), 8090, [])
     }
+
   },
   mounted(){
     this.getAllExercises()
+    this.createUserId()
   }
 }
 
