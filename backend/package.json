@@ -12,6 +12,6 @@
   "dependencies": {
     "cors": "^2.8.5",
     "nodemon": "^2.0.22",
-    "webpal": "^0.1.3"
+    "webpal": "^0.1.4"
   }
 }

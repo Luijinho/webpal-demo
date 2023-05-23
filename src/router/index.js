@@ -5,13 +5,13 @@ import AdminView from '../views/AdminView.vue'
 
 const routes = [
   {
-    path: '/',
+    path: '/main',
     name: 'Playground',
     component: PlaygroundView,
     props: true
   },
   {
-    path: '/withoutfeedback',
+    path: '/new',
     name: 'PlaygroundWorstView',
     component: PlaygroundWorstView,
     props: true

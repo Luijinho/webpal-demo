@@ -152,6 +152,7 @@ export default {
       await this.generateSolutionInterface();
 
       const logData = {
+        studentID: localStorage.getItem('userId'),
         exerciseID: exercise.exerciseID,
         timestamp: new Date().toISOString(),
         with_feedback: true,
@@ -171,6 +172,7 @@ export default {
         const timestamp = new Date().toLocaleString();
         this.feedbackLog.push({ timestamp, feedback: this.feedback });
         const logData = {
+          studentID: localStorage.getItem('userId'),
           exerciseID: this.exercise.exerciseID,
           timestamp: new Date().toISOString(),
           with_feedback: true,

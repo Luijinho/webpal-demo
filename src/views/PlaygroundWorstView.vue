@@ -152,6 +152,7 @@
         await this.generateSolutionInterface();
   
         const logData = {
+          studentID: localStorage.getItem('userId'),
           exerciseID: exercise.exerciseID,
           timestamp: new Date().toISOString(),
           with_feedback: false,
@@ -161,7 +162,7 @@
       },
       async evaluateExercise(id, attemptFiles, port, previousFeedback) {
         try {
-          const response = await axios.post('http://localhost:8085/evaluateExercise', {
+          const response = await axios.post('http://localhost:8085/evaluateExerciseWithoutStatic', {
             id,
             attemptFiles,
             port,
@@ -177,6 +178,7 @@
           }
           this.feedbackLog.push({ timestamp, feedback: newFeedback });
           const logData = {
+            studentID: localStorage.getItem('userId'),
             exerciseID: this.exercise.exerciseID,
             timestamp: new Date().toISOString(),
             with_feedback: false,
