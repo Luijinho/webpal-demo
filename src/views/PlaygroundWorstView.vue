@@ -11,7 +11,7 @@
         <div class="executionBtns">
           <button class="btns" @click="executeCode">Execute</button>
           <div class="divider"></div>
-          <button :disabled="!exercises.length" class="btns" @click="submitCode">Submit</button>
+          <button :disabled="!exercise" class="btns" @click="submitCode">Submit</button>
   
         </div>
         <div class="title">Webpal Playground</div>
@@ -135,7 +135,7 @@
     data() {
       return {
           professorHTML: '',
-          exercise: '',
+          exercise: null,
           exerciseID: '',
           feedback: '',
           showModal: false,
@@ -156,7 +156,7 @@
           exerciseID: exercise.exerciseID,
           timestamp: new Date().toISOString(),
           with_feedback: false,
-          feedback: 'Started exercise'
+          feedback: 'Started exercise "' + exercise.assignment + '"'
         };
         this.updateLog(logData);
       },

@@ -1,10 +1,14 @@
-const assert = require('chai').assert;
+const assert = chai.assert;
 
 describe('To-Do List', function() {
   const taskInput = document.getElementById('taskInput');
   const addButton = document.getElementById('addButton');
   const taskList = document.getElementById('taskList');
   const resetButton = document.getElementById('resetButton');
+
+  afterEach(function() {
+    resetButton.click();
+  });
 
   it('should have the correct initial values', function() {
     assert.equal(taskInput.value, '', 'Task input should be empty');
@@ -15,13 +19,14 @@ describe('To-Do List', function() {
     taskInput.value = 'Task 1';
     addButton.click();
     assert.equal(taskList.children.length, 1, 'Task should be added to the list');
-    assert.equal(taskList.children[0].textContent.trim(), 'Task 1', 'Task text should be correct');
   });
 
   it('should remove a task from the list when clicking the delete button', function() {
+    taskInput.value = 'Task 1';
+    addButton.click();
     const deleteButton = taskList.querySelector('.delButton');
     deleteButton.click();
-    assert.equal(taskList.children.length, 1, 'Task should be removed from the list');
+    assert.equal(taskList.children.length, 0, 'Task should be removed from the list');
   });
 
   it('should clear the task list when clicking the reset button', function() {

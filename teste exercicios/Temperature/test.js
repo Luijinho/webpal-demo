@@ -1,4 +1,4 @@
-const assert = require('chai').assert;
+const assert = chai.assert;
 
 describe('Temperature Conversion', function() {
   const celsiusInput = document.getElementById('celsius');

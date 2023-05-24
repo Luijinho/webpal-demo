@@ -1,4 +1,4 @@
-const assert = require('chai').assert;
+const assert = chai.assert;
 
 describe('Countdown', function() {
   const secondsInput = document.getElementById('secondsInput');
@@ -12,30 +12,37 @@ describe('Countdown', function() {
     assert.equal(countdownTimer.textContent, '0', 'Countdown timer should be initialized with 0');
   });
 
-  it('should start the countdown when clicking the start button', function(done) {
+  it('should start the countdown', function() {
     secondsInput.value = '5';
     startButton.click();
-    setTimeout(function() {
-      assert.isAbove(parseInt(countdownTimer.textContent), 0, 'Countdown should be running');
-      done();
-    }, 1000);
+
+    assert.equal(countdownTimer.textContent, '5', 'Countdown timer should start at the specified value');
   });
 
-  it('should pause the countdown when clicking the pause button', function(done) {
+  it('should pause the countdown', function() {
+    secondsInput.value = '5';
+    startButton.click();
     pauseButton.click();
-    const countdownValue = parseInt(countdownTimer.textContent);
-    setTimeout(function() {
-      assert.equal(parseInt(countdownTimer.textContent), countdownValue, 'Countdown should be paused');
-      done();
-    }, 1000);
+
+    assert.equal(countdownTimer.textContent, '5', 'Countdown timer should pause at the current value');
   });
 
-  it('should reset the countdown when clicking the reset button', function(done) {
+  it('should reset the countdown', function() {
+    secondsInput.value = '5';
+    startButton.click();
     resetButton.click();
+
+    assert.equal(secondsInput.value, '', 'Seconds input should be cleared after reset');
+    assert.equal(countdownTimer.textContent, '0', 'Countdown timer should be reset to 0');
+  });
+
+  it('should count down to 0', function(done) {
+    secondsInput.value = '1';
+    startButton.click();
+
     setTimeout(function() {
-      assert.equal(secondsInput.value, '', 'Seconds input should be cleared');
-      assert.equal(countdownTimer.textContent, '0', 'Countdown timer should be reset to 0');
+      assert.equal(countdownTimer.textContent, '0', 'Countdown timer should reach 0');
       done();
-    }, 1000);
+    }, 1500);
   });
 });

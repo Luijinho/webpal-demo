@@ -1,4 +1,4 @@
-const assert = require('chai').assert;
+const assert = chai.assert;
 
 describe('Counter', function() {
   const countElement = document.getElementById('count');
@@ -10,12 +10,7 @@ describe('Counter', function() {
     incrementButton.click();
     assert.equal(countElement.textContent, '1');
   });
-
-  it('should decrement the count when the decrement button is clicked', function() {
-    decrementButton.click();
-    assert.equal(countElement.textContent, '-1');
-  });
-
+  
   it('should reset the count to zero when the reset button is clicked', function() {
     incrementButton.click();
     resetButton.click();

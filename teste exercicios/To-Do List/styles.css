@@ -1,4 +1,4 @@
-.add-button,
-.reset-button {
+#addButton,
+#resetButton {
   cursor: pointer;
 }
