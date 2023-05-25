@@ -70,3 +70,11 @@ studentID	exerciseID	timestamp	withFeedback	feedback
 1ddd60b1-d1e1-48e8-87a6-893059e3bdc9	3af1114f-e984-4cd1-b01c-95e973238243	2023-05-24T22:31:07.026Z	true	Started exercise "Counter"
 1ddd60b1-d1e1-48e8-87a6-893059e3bdc9	3af1114f-e984-4cd1-b01c-95e973238243	2023-05-24T22:31:13.446Z	true	We couldn't map your attempt's HTML elements to the solution's HTML elements. Please review your HTML structure and element relationships.
 1ddd60b1-d1e1-48e8-87a6-893059e3bdc9	3af1114f-e984-4cd1-b01c-95e973238243	2023-05-24T22:32:20.018Z	false	Started exercise "Counter"
+1ddd60b1-d1e1-48e8-87a6-893059e3bdc9	3af1114f-e984-4cd1-b01c-95e973238243	2023-05-24T22:35:03.844Z	true	Started exercise "Counter"
+1ddd60b1-d1e1-48e8-87a6-893059e3bdc9	3fd32f60-efbd-4b7a-bde0-220f677dc7c6	2023-05-24T22:35:09.945Z	true	Started exercise "Countdown Timer"
+1ddd60b1-d1e1-48e8-87a6-893059e3bdc9	9614947b-a063-49b4-8d2b-98b4e7ad3092	2023-05-24T22:35:20.138Z	true	Started exercise "To-Do List"
+1ddd60b1-d1e1-48e8-87a6-893059e3bdc9	aef5c7c3-ae44-448a-a9eb-de1243092a9d	2023-05-24T22:35:42.747Z	true	Started exercise "Sum 2 Numbers"
+1ddd60b1-d1e1-48e8-87a6-893059e3bdc9	d941695c-9d50-4298-9670-479c63ec55d8	2023-05-24T22:35:47.450Z	true	Started exercise "Temperature Conversion"
+
+
+dsadasdsada
