@@ -162,7 +162,7 @@ export default {
     },
     async evaluateExercise(id, attemptFiles, port, previousFeedback) {
       try {
-        const response = await axios.post('https://webpalserver.fly.dev/evaluateExercise', {
+        const response = await axios.post('https://webpal-server.fly.dev/evaluateExercise', {
           id,
           attemptFiles,
           port,
@@ -185,7 +185,7 @@ export default {
     },
     async getAllExercises() {
       try {
-        const response = await axios.get('https://webpalserver.fly.dev/getAllExercises');
+        const response = await axios.get('https://webpal-server.fly.dev/getAllExercises');
         this.exercises = response.data;
         console.log(this.exercises)
       } catch (error) {
@@ -220,7 +220,7 @@ export default {
 
     updateLog(logData) {
       const userId = localStorage.getItem('userId');
-      const logEndpoint = 'https://webpalserver.fly.dev/log';
+      const logEndpoint = 'https://webpal-server.fly.dev/log';
 
       const payload = {
         userId: userId,

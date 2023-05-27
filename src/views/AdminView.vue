@@ -159,7 +159,7 @@
 
           console.log(JSON.parse(jsonData))
           try {
-              const response = await axios.post('https://webpalserver.fly.dev/createExercise', {
+              const response = await axios.post('https://webpal-server.fly.dev/createExercise', {
               code: jsonData,
               tests: jsTests,
               assignment: assignment
