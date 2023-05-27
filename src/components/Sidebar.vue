@@ -12,15 +12,25 @@
         <ul>
           <li v-for="(exercise, index) in exercises" :key="index" @click="updateExercise(exercise)">
             {{ exercise.assignment }}
-            <div class="button-container">
-              <button @click.stop="editExercise(exercise.exerciseID)">
-                <i class="">Edit</i>
-              </button>
-              <button @click.stop="deleteExercise(exercise.exerciseID)">
-                <i class="">Del</i>
-              </button>
+              <div class="button-container">
+                <button @click.stop="editExercise(exercise.exerciseID)">
+                  <i class="">Edit</i>
+                </button>
+                <button @click.stop="deleteExercise(exercise.exerciseID)">
+                  <i class="">Del</i>
+                </button>
+                <button @click.stop="showExerciseDescription(exercise.description)"> <!-- new button -->
+                  <i class="">Info</i>
+                </button>
               </div>
           </li>
+
+          <div v-show="showDescription" @click="showDescription = false" class="modal-overlay">
+            <div class="modal-content" @click.stop>
+              <p>{{ currentDescription }}</p>
+            </div>
+          </div>
+
         </ul>
       </div>
     </div>
@@ -35,6 +45,8 @@
       return {
         showSidebar: false,
         exercises: [],
+        showDescription: false,
+        currentDescription: '',
       };
     },
     methods: {
@@ -52,11 +64,20 @@
       },
       async getAllExercises() {
         try {
-          const response = await axios.get("https://webpalserver.fly.dev/getAllExercises");
-          this.exercises = response.data;
+          const response = await axios.get("http://localhost:8085/getAllExercises");
+          console.log(response.data)
+          this.exercises = response.data.map(exercise => ({
+            ...exercise,
+            description: exercise.description
+          }));
         } catch (error) {
           console.error(error);
         }
+      },
+
+      showExerciseDescription(description) {
+        this.currentDescription = description;
+        this.showDescription = true;
       },
       async deleteExercise(id) {
         try {
@@ -64,7 +85,7 @@
           if (!confirmed) {
             return;
           }
-          await axios.post("https://webpalserver.fly.dev/deleteExercise", {
+          await axios.post("http://localhost:8085/deleteExercise", {
             id: id
           });
           window.location.reload();
@@ -84,7 +105,7 @@
       },
       async fetchExerciseDetails(id) {
         try {
-          const response = await axios.post("https://webpalserver.fly.dev/getFullExercise", {
+          const response = await axios.post("http://localhost:8085//getFullExercise", {
             id: id
           });
           this.$emit('exercise-details-received', response.data);
@@ -101,6 +122,27 @@
   
  
 <style scoped>
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 90%;
+  max-height: 90%;
+  overflow: auto;
+}
+
 .hamburger {
   cursor: pointer;
   position: absolute;

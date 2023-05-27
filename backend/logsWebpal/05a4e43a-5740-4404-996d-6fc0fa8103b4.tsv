@@ -1,0 +1,10 @@
+studentID	exerciseID	timestamp	withFeedback	feedback
+05a4e43a-5740-4404-996d-6fc0fa8103b4	c2770dbe-556d-491c-b157-8c4db2d4761e	2023-05-27T18:17:28.888Z	true	Started exercise "teste"
+05a4e43a-5740-4404-996d-6fc0fa8103b4	601c8794-8541-4430-8b4e-17de1b9d6aa7	2023-05-27T18:31:49.473Z	true	Started exercise "aaa"
+05a4e43a-5740-4404-996d-6fc0fa8103b4	d97a331a-934a-4be8-865c-88dea773f352	2023-05-27T18:35:20.562Z	true	Started exercise "a"
+05a4e43a-5740-4404-996d-6fc0fa8103b4	1eab1ab2-9c03-414f-8f4a-915842479c1a	2023-05-27T18:47:48.240Z	true	Started exercise "aa"
+05a4e43a-5740-4404-996d-6fc0fa8103b4	96ab7c7e-2e8a-45ce-a9e0-fc7e0797c217	2023-05-27T19:54:52.721Z	true	Started exercise "teste3"
+05a4e43a-5740-4404-996d-6fc0fa8103b4	0542b1e7-3cdd-4f7c-81d5-502f4132797c	2023-05-27T19:57:22.664Z	true	Started exercise "teste2"
+05a4e43a-5740-4404-996d-6fc0fa8103b4	0542b1e7-3cdd-4f7c-81d5-502f4132797c	2023-05-27T19:57:25.780Z	true	Started exercise "teste2"
+05a4e43a-5740-4404-996d-6fc0fa8103b4	0542b1e7-3cdd-4f7c-81d5-502f4132797c	2023-05-27T19:57:35.258Z	true	We couldn't map you elements with the reference ones. Check your interface or the JavaScript code that manipulates the DOM.
+05a4e43a-5740-4404-996d-6fc0fa8103b4	5a22fe07-6acd-4084-a42e-a1f0316182be	2023-05-27T20:05:30.009Z	true	Started exercise "teste"

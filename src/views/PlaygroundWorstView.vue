@@ -162,7 +162,7 @@
       },
       async evaluateExercise(id, attemptFiles, port, previousFeedback) {
         try {
-          const response = await axios.post('https://webpal-server.fly.dev/evaluateExerciseWithoutStatic', {
+          const response = await axios.post('http://localhost:8085/evaluateExerciseWithoutStatic', {
             id,
             attemptFiles,
             port,
@@ -191,7 +191,7 @@
       },
       async getAllExercises() {
         try {
-          const response = await axios.get('https://webpal-server.fly.dev/getAllExercises');
+          const response = await axios.get('http://localhost:8085/getAllExercises');
           this.exercises = response.data;
           console.log(this.exercises)
         } catch (error) {
@@ -226,7 +226,7 @@
   
       updateLog(logData) {
         const userId = localStorage.getItem('userId');
-        const logEndpoint = 'https://webpal-server.fly.dev/log';
+        const logEndpoint = 'http://localhost:8085/log';
   
         const payload = {
           userId: userId,

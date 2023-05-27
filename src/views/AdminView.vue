@@ -12,6 +12,10 @@
           <label for="assignment">Assignment Name/Description:</label>
           <input id="assignment" placeholder="Insert exercise name..." v-model="assignment" type="text" required />
         </div>
+        <div class="form-group">
+          <label for="description">Exercise Description:</label>
+          <input id="description" placeholder="Insert exercise description..." v-model="description" type="text" required />
+        </div>
   
         <div class="form-group">
           <div class="codeEditors">
@@ -121,6 +125,7 @@
     data() {
       return {
         assignment: "",
+        description: "",
         jsTests: "",
         exercises: [],
         showSidebar: false,
@@ -153,27 +158,31 @@
       },
 
       async submitExercise() {
-          const jsonData = this.generateJSON()
-          const jsTests = this.jsTests
-          const assignment = this.assignment
+        const jsonData = this.generateJSON()
+        const jsTests = this.jsTests
+        const assignment = this.assignment
+        const description = this.description 
 
-          console.log(JSON.parse(jsonData))
-          try {
-              const response = await axios.post('https://webpal-server.fly.dev/createExercise', {
-              code: jsonData,
-              tests: jsTests,
-              assignment: assignment
-              });
-              console.log("ID: " + response.data)
-              this.exerciseID = response.data;
-              this.submitSuccess = true;
-              this.assignment = ``
-              this.jsonData = ``
-              this.jsTests = ``
-          } catch (error) {
-              console.error(error);
-          }
+        console.log(JSON.parse(jsonData))
+        try {
+            const response = await axios.post('http://localhost:8085/createExercise', {
+            code: jsonData,
+            tests: jsTests,
+            assignment: assignment,
+            description: description
+            });
+            console.log("ID: " + response.data)
+            this.exerciseID = response.data;
+            this.submitSuccess = true;
+            this.assignment = ``
+            this.jsonData = ``
+            this.jsTests = ``
+            this.description = ``
+        } catch (error) {
+            console.error(error);
+        }
       },
+
       handleExerciseDetailsReceived(data) {
         this.assignment = data.assignment
         data.data.data.forEach(item => {
@@ -198,6 +207,28 @@
 </script>
   
 <style scoped>
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 90%;
+  max-height: 90%;
+  overflow: auto;
+}
+
 
 .submit-success {
     background-color: #dff0d8;
