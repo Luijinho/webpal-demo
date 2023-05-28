@@ -64,7 +64,7 @@
       },
       async getAllExercises() {
         try {
-          const response = await axios.get("http://localhost:8085/getAllExercises");
+          const response = await axios.get("https://webpalserver.fly.dev/getAllExercises");
           console.log(response.data)
           this.exercises = response.data.map(exercise => ({
             ...exercise,
@@ -85,7 +85,7 @@
           if (!confirmed) {
             return;
           }
-          await axios.post("http://localhost:8085/deleteExercise", {
+          await axios.post("https://webpalserver.fly.dev/deleteExercise", {
             id: id
           });
           window.location.reload();
@@ -105,7 +105,7 @@
       },
       async fetchExerciseDetails(id) {
         try {
-          const response = await axios.post("http://localhost:8085//getFullExercise", {
+          const response = await axios.post("https://webpalserver.fly.dev/getFullExercise", {
             id: id
           });
           this.$emit('exercise-details-received', response.data);
