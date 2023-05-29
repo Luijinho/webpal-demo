@@ -9,7 +9,7 @@
   
   
         <div class="executionBtns">
-          <button class="btns" @click="executeCode">Execute</button>
+          <button :disabled="!this.exercise" class="btns" @click="executeCode">Execute</button>
           <div class="divider"></div>
           <button :disabled="!this.exercise" class="btns" @click="submitCode">Submit</button>
   
