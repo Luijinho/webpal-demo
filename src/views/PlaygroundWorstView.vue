@@ -144,12 +144,12 @@
           feedbackLog: []
       }
     },
-    methods: {
+    computed: {
       submitButtonRules() {
-        const studentFrame = document.querySelector('.studentFrame');
-        const studentFrameContent = studentFrame.contentDocument.documentElement.innerHTML;
-        return studentFrameContent.trim().length > 0 && this.exercise;
+        return this.codeHTML.trim().length > 0 && this.exercise;
       },
+    },
+    methods: {
       async updateExercise(exercise) {
         this.exercise = exercise
         
