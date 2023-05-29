@@ -133,7 +133,6 @@ export default {
     }
   },
   computed: {
-    isSubmitDisabled() {
     submitButtonRules() {
       const studentFrame = document.querySelector('.studentFrame');
       const studentFrameContent = studentFrame.contentDocument.documentElement.innerHTML;
