@@ -1,0 +1,1 @@
+Create a webpage that accepts two numerical inputs from the user. There is a 'Sum' button that, when clicked, displays the sum of these two numbers. Additionally, there's a 'Reset' button that clears the input fields and resets the sum to zero upon clicking. 

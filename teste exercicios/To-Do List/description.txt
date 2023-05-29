@@ -1,0 +1,1 @@
+Develop a webpage that enables users to manage a simple to-do list. Users should be able to input tasks in a text field, and clicking the 'Add' button adds these tasks to a list. Each item in the list should include a 'Delete' button that removes the item from the list when clicked. There should also be a 'Reset' button that clears all tasks from the list.

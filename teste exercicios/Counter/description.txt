@@ -1,0 +1,1 @@
+Create a webpage that displays a counter to the user. The counter starts at zero and is incremented or decremented by one when the '+' or '-' button is clicked respectively. Additionally, there's a 'Reset' button that resets the counter back to zero upon clicking.
