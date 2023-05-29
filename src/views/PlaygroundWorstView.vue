@@ -11,7 +11,7 @@
         <div class="executionBtns">
           <button class="btns" @click="executeCode">Execute</button>
           <div class="divider"></div>
-          <button :disabled="!this.codeHTML.trim().length > 0 && !this.exercise" class="btns" @click="submitCode">Submit</button>
+          <button :disabled="!this.exercise" class="btns" @click="submitCode">Submit</button>
   
         </div>
         <div class="title">Webpal Playground</div>
@@ -281,6 +281,12 @@
         console.log(localStorage.getItem('userId'))
       },
       async submitCode(){
+
+        if (this.codeHTML.trim() === '') {
+          alert('Please enter HTML code before submitting.');
+          return;
+        }
+
         const studentAttempt = []
   
         if (this.codeHTML.trim() !== '') {
