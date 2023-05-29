@@ -11,7 +11,7 @@
       <div class="executionBtns">
         <button class="btns" @click="executeCode">Execute</button>
         <div class="divider"></div>
-        <button :disabled="!exercise" class="btns" @click="submitCode">Submit</button>
+        <button :disabled="isSubmitDisabled" class="btns" @click="submitCode">Submit</button>
 
       </div>
       <div class="title">Webpal Playground</div>
@@ -131,6 +131,11 @@ export default {
         cssFile,
         jsFile
     }
+  },
+  computed: {
+    isSubmitDisabled() {
+      return !this.codeHTML.trim() || !this.exercise;
+    },
   },
   data() {
     return {
