@@ -162,7 +162,7 @@
       },
       async evaluateExercise(id, attemptFiles, port, previousFeedback) {
         try {
-          const response = await axios.post('http://webpalserver-env.eba-ve5qanqp.eu-north-1.elasticbeanstalk.com/evaluateExerciseWithoutStatic', {
+          const response = await axios.post('https://webpal-server.adaptable.app/evaluateExerciseWithoutStatic', {
             id,
             attemptFiles,
             port,
@@ -191,7 +191,7 @@
       },
       async getAllExercises() {
         try {
-          const response = await axios.get('http://webpalserver-env.eba-ve5qanqp.eu-north-1.elasticbeanstalk.com/getAllExercises');
+          const response = await axios.get('https://webpal-server.adaptable.app/getAllExercises');
           this.exercises = response.data;
           console.log(this.exercises)
         } catch (error) {
@@ -226,7 +226,7 @@
   
       updateLog(logData) {
         const userId = localStorage.getItem('userId');
-        const logEndpoint = 'http://webpalserver-env.eba-ve5qanqp.eu-north-1.elasticbeanstalk.com/log';
+        const logEndpoint = 'https://webpal-server.adaptable.app/log';
   
         const payload = {
           userId: userId,
