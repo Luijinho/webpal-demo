@@ -64,7 +64,7 @@
       },
       async getAllExercises() {
         try {
-          const response = await axios.get("https://webpalserver.fly.dev/getAllExercises");
+          const response = await axios.get("http://webpalserver-env.eba-ve5qanqp.eu-north-1.elasticbeanstalk.com/getAllExercises");
           console.log(response.data)
           this.exercises = response.data.map(exercise => ({
             ...exercise,
@@ -85,7 +85,7 @@
           if (!confirmed) {
             return;
           }
-          await axios.post("https://webpalserver.fly.dev/deleteExercise", {
+          await axios.post("http://webpalserver-env.eba-ve5qanqp.eu-north-1.elasticbeanstalk.com/deleteExercise", {
             id: id
           });
           window.location.reload();
@@ -105,7 +105,7 @@
       },
       async fetchExerciseDetails(id) {
         try {
-          const response = await axios.post("https://webpalserver.fly.dev/getFullExercise", {
+          const response = await axios.post("http://webpalserver-env.eba-ve5qanqp.eu-north-1.elasticbeanstalk.com/getFullExercise", {
             id: id
           });
           this.$emit('exercise-details-received', response.data);
