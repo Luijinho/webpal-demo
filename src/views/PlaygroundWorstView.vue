@@ -11,7 +11,7 @@
         <div class="executionBtns">
           <button class="btns" @click="executeCode">Execute</button>
           <div class="divider"></div>
-          <button :disabled="!exercise" class="btns" @click="submitCode">Submit</button>
+          <button :disabled="!submitButtonRules" class="btns" @click="submitCode">Submit</button>
   
         </div>
         <div class="title">Webpal Playground</div>
@@ -145,8 +145,12 @@
       }
     },
     methods: {
+      submitButtonRules() {
+        const studentFrame = document.querySelector('.studentFrame');
+        const studentFrameContent = studentFrame.contentDocument.documentElement.innerHTML;
+        return studentFrameContent.trim().length > 0 && this.exercise;
+      },
       async updateExercise(exercise) {
-        // Update the page with the new exercise data
         this.exercise = exercise
         
         await this.generateSolutionInterface();

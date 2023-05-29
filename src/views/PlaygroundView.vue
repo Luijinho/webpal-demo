@@ -11,7 +11,7 @@
       <div class="executionBtns">
         <button class="btns" @click="executeCode">Execute</button>
         <div class="divider"></div>
-        <button :disabled="isSubmitDisabled" class="btns" @click="submitCode">Submit</button>
+        <button :disabled="!submitButtonRules" class="btns" @click="submitCode">Submit</button>
 
       </div>
       <div class="title">Webpal Playground</div>
@@ -134,7 +134,10 @@ export default {
   },
   computed: {
     isSubmitDisabled() {
-      return !this.codeHTML.trim() || !this.exercise;
+    submitButtonRules() {
+      const studentFrame = document.querySelector('.studentFrame');
+      const studentFrameContent = studentFrame.contentDocument.documentElement.innerHTML;
+      return studentFrameContent.trim().length > 0 && this.exercise;
     },
   },
   data() {
