@@ -102,6 +102,8 @@ import { javascript } from '@codemirror/lang-javascript'
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 
+axios.defaults.withCredentials = true;
+
 export default {
   name: 'PlaygroundView',
   components: {

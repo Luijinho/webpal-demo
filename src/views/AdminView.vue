@@ -91,6 +91,8 @@
   import { css } from '@codemirror/lang-css'
   import { javascript } from '@codemirror/lang-javascript'
 
+  axios.defaults.withCredentials = true;
+
   export default {
     name: 'AdminView',
     components: {
