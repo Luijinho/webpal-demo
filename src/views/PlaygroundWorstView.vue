@@ -11,7 +11,7 @@
         <div class="executionBtns">
           <button class="btns" @click="executeCode">Execute</button>
           <div class="divider"></div>
-          <button :disabled="!submitButtonRules" class="btns" @click="submitCode">Submit</button>
+          <button :disabled="this.codeHTML.trim().length > 0 && this.exercise" class="btns" @click="submitCode">Submit</button>
   
         </div>
         <div class="title">Webpal Playground</div>
@@ -143,11 +143,6 @@
           showSidebar: false,
           feedbackLog: []
       }
-    },
-    computed: {
-      submitButtonRules() {
-        return this.codeHTML.trim().length > 0 && this.exercise;
-      },
     },
     methods: {
       async updateExercise(exercise) {
