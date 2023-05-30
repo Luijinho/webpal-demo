@@ -162,7 +162,7 @@ export default {
     },
     async evaluateExercise(id, attemptFiles, previousFeedback) {
       try {
-        const response = await axios.post('http://webpalserver-env.eba-ve5qanqp.eu-north-1.elasticbeanstalk.com/evaluateExercise', {
+        const response = await axios.post('http://13.49.130.58:3000/evaluateExercise', {
           id,
           attemptFiles,
           previousFeedback
@@ -184,7 +184,7 @@ export default {
     },
     async getAllExercises() {
       try {
-        const response = await axios.get('http://webpalserver-env.eba-ve5qanqp.eu-north-1.elasticbeanstalk.com/getAllExercises');
+        const response = await axios.get('http://13.49.130.58:3000/getAllExercises');
         this.exercises = response.data;
         console.log(this.exercises)
       } catch (error) {
@@ -219,7 +219,7 @@ export default {
 
     updateLog(logData) {
       const userId = localStorage.getItem('userId');
-      const logEndpoint = 'http://webpalserver-env.eba-ve5qanqp.eu-north-1.elasticbeanstalk.com/log';
+      const logEndpoint = 'http://13.49.130.58:3000/log';
 
       const payload = {
         userId: userId,

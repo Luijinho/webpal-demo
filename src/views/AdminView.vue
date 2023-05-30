@@ -165,7 +165,7 @@
 
         console.log(JSON.parse(jsonData))
         try {
-            const response = await axios.post('http://webpalserver-env.eba-ve5qanqp.eu-north-1.elasticbeanstalk.com/createExercise', {
+            const response = await axios.post('http://13.49.130.58:3000/createExercise', {
             code: jsonData,
             tests: jsTests,
             assignment: assignment,
