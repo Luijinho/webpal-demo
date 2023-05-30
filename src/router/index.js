@@ -11,7 +11,7 @@ const routes = [
     props: true
   },
   {
-    path: '/new',
+    path: '/updated',
     name: 'PlaygroundWorstView',
     component: PlaygroundWorstView,
     props: true
