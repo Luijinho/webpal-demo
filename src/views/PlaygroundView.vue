@@ -162,7 +162,7 @@ export default {
     },
     async evaluateExercise(id, attemptFiles, previousFeedback) {
       try {
-        const response = await axios.post('http://localhost:3000/evaluateExercise', {
+        const response = await axios.post('https://webpal-server.adaptable.app/evaluateExercise', {
           id,
           attemptFiles,
           previousFeedback
@@ -184,7 +184,7 @@ export default {
     },
     async getAllExercises() {
       try {
-        const response = await axios.get('http://localhost:3000/getAllExercises');
+        const response = await axios.get('https://webpal-server.adaptable.app/getAllExercises');
         this.exercises = response.data;
         console.log(this.exercises)
       } catch (error) {
@@ -219,7 +219,7 @@ export default {
 
     updateLog(logData) {
       const userId = localStorage.getItem('userId');
-      const logEndpoint = 'http://localhost:3000/log';
+      const logEndpoint = 'https://webpal-server.adaptable.app/log';
 
       const payload = {
         userId: userId,
