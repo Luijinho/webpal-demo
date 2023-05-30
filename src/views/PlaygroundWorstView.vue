@@ -161,7 +161,7 @@
       },
       async evaluateExercise(id, attemptFiles, previousFeedback) {
         try {
-          const response = await axios.get('https://webpal-server.adaptable.app/evaluateExerciseWithoutStatic', {
+          const response = await axios.post('https://webpal-server.adaptable.app/evaluateExerciseWithoutStatic', {
             id,
             attemptFiles,
             previousFeedback
