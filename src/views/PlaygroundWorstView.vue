@@ -161,7 +161,7 @@
       },
       async evaluateExercise(id, attemptFiles, previousFeedback) {
         try {
-          const response = await axios.post('https://1c5d-2001-818-daba-6200-3821-3160-2e6b-ad7c.ngrok-free.app/evaluateExerciseWithoutStatic', {
+          const response = await axios.post('http://webpalserver-env.eba-ve5qanqp.eu-north-1.elasticbeanstalk.com/evaluateExerciseWithoutStatic', {
             id,
             attemptFiles,
             previousFeedback
@@ -189,7 +189,7 @@
       },
       async getAllExercises() {
         try {
-          const response = await axios.get('https://1c5d-2001-818-daba-6200-3821-3160-2e6b-ad7c.ngrok-free.app/getAllExercises');
+          const response = await axios.get('http://webpalserver-env.eba-ve5qanqp.eu-north-1.elasticbeanstalk.com/getAllExercises');
           this.exercises = response.data;
           console.log(this.exercises)
         } catch (error) {
@@ -224,7 +224,7 @@
   
       updateLog(logData) {
         const userId = localStorage.getItem('userId');
-        const logEndpoint = 'https://1c5d-2001-818-daba-6200-3821-3160-2e6b-ad7c.ngrok-free.app/log';
+        const logEndpoint = 'http://webpalserver-env.eba-ve5qanqp.eu-north-1.elasticbeanstalk.com/log';
   
         const payload = {
           userId: userId,

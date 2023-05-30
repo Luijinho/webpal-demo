@@ -64,7 +64,7 @@
       },
       async getAllExercises() {
         try {
-          const response = await axios.get("https://1c5d-2001-818-daba-6200-3821-3160-2e6b-ad7c.ngrok-free.app/getAllExercises");
+          const response = await axios.get("http://webpalserver-env.eba-ve5qanqp.eu-north-1.elasticbeanstalk.com/getAllExercises");
           console.log(response.data)
           this.exercises = response.data.map(exercise => ({
             ...exercise,
@@ -85,7 +85,7 @@
           if (!confirmed) {
             return;
           }
-          await axios.post("https://1c5d-2001-818-daba-6200-3821-3160-2e6b-ad7c.ngrok-free.app/deleteExercise", {
+          await axios.post("http://webpalserver-env.eba-ve5qanqp.eu-north-1.elasticbeanstalk.com/deleteExercise", {
             id: id
           });
           window.location.reload();
@@ -105,7 +105,7 @@
       },
       async fetchExerciseDetails(id) {
         try {
-          const response = await axios.post("https://1c5d-2001-818-daba-6200-3821-3160-2e6b-ad7c.ngrok-free.app/getFullExercise", {
+          const response = await axios.post("http://webpalserver-env.eba-ve5qanqp.eu-north-1.elasticbeanstalk.com/getFullExercise", {
             id: id
           });
           this.$emit('exercise-details-received', response.data);
