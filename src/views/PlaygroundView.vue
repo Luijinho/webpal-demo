@@ -164,7 +164,7 @@ export default {
     },
     async evaluateExercise(id, attemptFiles, previousFeedback) {
       try {
-        const response = await axios.post('https://webpal-server.adaptable.app/evaluateExercise', {
+        const response = await axios.get('https://webpal-server.adaptable.app/evaluateExercise', {
           id,
           attemptFiles,
           previousFeedback
