@@ -161,7 +161,7 @@
       },
       async evaluateExercise(id, attemptFiles, previousFeedback) {
         try {
-          const response = await axios.post('https://c7a9-2001-818-daba-6200-3821-3160-2e6b-ad7c.ngrok-free.app/evaluateExerciseWithoutStatic', {
+          const response = await axios.post('https://1c5d-2001-818-daba-6200-3821-3160-2e6b-ad7c.ngrok-free.app/evaluateExerciseWithoutStatic', {
             id,
             attemptFiles,
             previousFeedback
@@ -189,7 +189,7 @@
       },
       async getAllExercises() {
         try {
-          const response = await axios.get('https://c7a9-2001-818-daba-6200-3821-3160-2e6b-ad7c.ngrok-free.app/getAllExercises');
+          const response = await axios.get('https://1c5d-2001-818-daba-6200-3821-3160-2e6b-ad7c.ngrok-free.app/getAllExercises');
           this.exercises = response.data;
           console.log(this.exercises)
         } catch (error) {
@@ -224,7 +224,7 @@
   
       updateLog(logData) {
         const userId = localStorage.getItem('userId');
-        const logEndpoint = 'https://c7a9-2001-818-daba-6200-3821-3160-2e6b-ad7c.ngrok-free.app/log';
+        const logEndpoint = 'https://1c5d-2001-818-daba-6200-3821-3160-2e6b-ad7c.ngrok-free.app/log';
   
         const payload = {
           userId: userId,

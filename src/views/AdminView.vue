@@ -165,7 +165,7 @@
 
         console.log(JSON.parse(jsonData))
         try {
-            const response = await axios.post('https://c7a9-2001-818-daba-6200-3821-3160-2e6b-ad7c.ngrok-free.app/createExercise', {
+            const response = await axios.post('https://1c5d-2001-818-daba-6200-3821-3160-2e6b-ad7c.ngrok-free.app/createExercise', {
             code: jsonData,
             tests: jsTests,
             assignment: assignment,
