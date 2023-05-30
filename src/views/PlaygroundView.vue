@@ -160,12 +160,11 @@ export default {
       };
       this.updateLog(logData);
     },
-    async evaluateExercise(id, attemptFiles, port, previousFeedback) {
+    async evaluateExercise(id, attemptFiles, previousFeedback) {
       try {
         const response = await axios.post('http://localhost:3000/evaluateExercise', {
           id,
           attemptFiles,
-          port,
           previousFeedback
         });
         this.feedback = response.data;
@@ -305,7 +304,7 @@ export default {
         });
       }
 
-      await this.evaluateExercise(this.exercise.exerciseID, JSON.stringify(studentAttempt), 8090, [])
+      await this.evaluateExercise(this.exercise.exerciseID, JSON.stringify(studentAttempt), [])
     }
 
   },
