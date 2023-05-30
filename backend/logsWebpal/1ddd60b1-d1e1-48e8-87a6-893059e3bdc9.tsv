@@ -77,4 +77,8 @@ studentID	exerciseID	timestamp	withFeedback	feedback
 1ddd60b1-d1e1-48e8-87a6-893059e3bdc9	d941695c-9d50-4298-9670-479c63ec55d8	2023-05-24T22:35:47.450Z	true	Started exercise "Temperature Conversion"
 
 
-dsadasdsada
+dsadasdsada1ddd60b1-d1e1-48e8-87a6-893059e3bdc9	ae0c8981-31e9-458f-94c5-aa1317c08e2e	2023-05-30T11:03:30.714Z	true	Started exercise "Sum 2 Numbers"
+1ddd60b1-d1e1-48e8-87a6-893059e3bdc9	ae0c8981-31e9-458f-94c5-aa1317c08e2e	2023-05-30T11:03:37.933Z	true	File: index.html - Element “head” is missing a required instance of child element “title”.
+1ddd60b1-d1e1-48e8-87a6-893059e3bdc9	ae0c8981-31e9-458f-94c5-aa1317c08e2e	2023-05-30T11:03:46.830Z	false	Started exercise "Sum 2 Numbers"
+1ddd60b1-d1e1-48e8-87a6-893059e3bdc9	ae0c8981-31e9-458f-94c5-aa1317c08e2e	2023-05-30T11:03:53.525Z	false	Incorrect
+1ddd60b1-d1e1-48e8-87a6-893059e3bdc9	ae0c8981-31e9-458f-94c5-aa1317c08e2e	2023-05-30T11:03:57.074Z	false	Incorrect
