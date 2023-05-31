@@ -113,9 +113,21 @@ export default {
     const extensionsHTML = [html()]
     const extensionsCSS = [css()]
     const extensionsJS = [javascript()]
-    const codeHTML = ``
+    const codeHTML = `<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="style.css">
+    <script type='text/javascript' src='main.js'><` + `/script>
+    <title>Assignment</title>
+  </head>
+  <body>
+    <!-- Your code goes here -->
+  </body>
+</html>`
     const codeCSS = ``
-    const codeJS = ``
+    const codeJS = `window.onload = function(){
+  // Your code goes here
+}`
     const htmlFile = `index.html`
     const cssFile = `style.css`
     const jsFile = `main.js`
