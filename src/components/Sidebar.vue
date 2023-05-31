@@ -32,6 +32,7 @@
           </div>
 
         </ul>
+        <button class="feedback-btn" @click="redirectToFeedbackForm">Give us feedback</button>
       </div>
     </div>
   </template>
@@ -72,7 +73,10 @@
           console.error(error);
         }
       },
-
+      redirectToFeedbackForm() {
+        const userId = localStorage.getItem('userId');
+        window.open("https://docs.google.com/forms/d/e/1FAIpQLScUCquDQ8kRhlD31tCIvrmPAYAp4zf_I9_7DPelyRlJJ7n1uw/viewform?usp=pp_url&entry.1135112518="+userId, "_blank");
+      },
       showExerciseDescription(description) {
         this.currentDescription = description;
         this.showDescription = true;
@@ -92,12 +96,9 @@
         }
       },
       editExercise(id) {
-        // check if already on backoffice page
         if (this.$route.name !== 'Admin') {
-          // navigate to backoffice page with exercise ID as query parameter
           this.$router.push({ name: "Admin", query: { id: id} });
         } else {
-          // if already on backoffice page, fetch exercise details and populate text areas
           this.fetchExerciseDetails(id);
         }
       },
@@ -120,6 +121,14 @@
   
  
 <style scoped>
+.feedback-btn {
+  margin-top: 10px;
+  font-size: 16px;
+  background-color: transparent;
+  text-decoration: underline;
+  border: none;
+  cursor: pointer;
+}
 .modal-overlay {
   position: fixed;
   top: 0;
