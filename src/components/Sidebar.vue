@@ -55,7 +55,6 @@
         document.querySelector(".sidebar").classList.toggle("open");
       },
       async updateExercise(exercise) {
-        console.log(exercise)
         this.$emit("exercise-selected", exercise);
         this.toggleSidebar();
       },
@@ -65,7 +64,6 @@
       async getAllExercises() {
         try {
           const response = await axios.get("http://13.49.130.58:3000/getAllExercises");
-          console.log(response.data)
           this.exercises = response.data.map(exercise => ({
             ...exercise,
             description: exercise.description

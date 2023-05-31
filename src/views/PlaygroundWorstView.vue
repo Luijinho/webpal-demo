@@ -203,7 +203,6 @@
         try {
           const response = await axios.get('http://13.49.130.58:3000/getAllExercises');
           this.exercises = response.data;
-          console.log(this.exercises)
         } catch (error) {
           console.error(error);
         }
@@ -289,7 +288,6 @@
           const userId = uuidv4();
           localStorage.setItem('userId', userId);
         }
-        console.log(localStorage.getItem('userId'))
       },
       async submitCode(){
 
