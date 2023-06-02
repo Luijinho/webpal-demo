@@ -160,17 +160,28 @@ export default {
       this.submitCode();  
     },
     async updateExercise(exercise) {
-      // Update the page with the new exercise data
       this.exercise = exercise
       
       await this.generateSolutionInterface();
+      const startedExercises = JSON.parse(localStorage.getItem('startedExercises') || '{}');
+      let logMessage = '';
+
+      if (startedExercises[exercise.exerciseID]) {
+        logMessage = 'Continue exercise "' + exercise.assignment + '"';
+      } else {
+        startedExercises[exercise.exerciseID] = true;
+        localStorage.setItem('startedExercises', JSON.stringify(startedExercises));
+        logMessage = 'Started exercise "' + exercise.assignment + '"';
+      }
 
       const logData = {
         studentID: localStorage.getItem('userId'),
         exerciseID: exercise.exerciseID,
+        exerciseName: exercise.assignment,
         timestamp: new Date().toISOString(),
         with_feedback: true,
-        feedback: 'Started exercise "' + exercise.assignment + '"'
+        type: 'action',
+        feedback: logMessage
       };
       this.updateLog(logData);
     },
@@ -187,8 +198,10 @@ export default {
         const logData = {
           studentID: localStorage.getItem('userId'),
           exerciseID: this.exercise.exerciseID,
+          exerciseName: this.exercise.assignment,
           timestamp: new Date().toISOString(),
           with_feedback: true,
+          type: 'feedback',
           feedback: this.feedback
         };
         this.updateLog(logData);

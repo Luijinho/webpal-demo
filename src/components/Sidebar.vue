@@ -19,7 +19,7 @@
                 <button @click.stop="deleteExercise(exercise.exerciseID)">
                   <i class="">Del</i>
                 </button> -->
-                <button @click.stop="showExerciseDescription(exercise.description)"> <!-- new button -->
+                <button @click.stop="showExerciseDescription(exercise.description)">
                   <i class="">Info</i>
                 </button>
               </div>
