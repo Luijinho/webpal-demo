@@ -9,10 +9,9 @@
   
   
         <div class="executionBtns">
-          <button :disabled="!this.exercise" class="btns" @click="executeCode">Execute</button>
+          <button :disabled="!this.exercise" class="btns" @click="executeAndSubmit">Execute</button>
           <div class="divider"></div>
-          <button :disabled="!this.exercise" class="btns" @click="submitCode">Submit</button>
-  
+          <button :disabled="!feedbackLog.length" @click="clearFeedbackLog" class="btns">Clear Log</button>
         </div>
         <div class="title">Webpal Playground</div>
       </header>
@@ -70,24 +69,25 @@
     </div>
   </div>
   
-      <div class="frameTitles">
-        <div>Student Frame</div>
-        <div>Teacher Frame</div>
+  <div class="frames-and-feedback">
+      <div class="frame-container">
+        <div class="frame-wrapper">
+          <div class="frame-title">Attempt</div>
+          <iframe class="studentFrame" srcdoc="" frameborder="0"></iframe>
+        </div>
+        <div class="frame-wrapper">
+          <div class="frame-title">Reference</div>
+          <iframe class="professorFrame" :srcdoc="professorHTML" frameborder="0"></iframe>
+        </div>
       </div>
-      <div class="frames">
-        <iframe class="studentFrame" srcdoc="" frameborder="0"></iframe>
-        <iframe class="professorFrame" :srcdoc="professorHTML" frameborder="0"></iframe>
-      </div>
-      
-  
       <div class="feedback-log">
-        <h3>Feedback Log:</h3>
-        <button @click="clearFeedbackLog" class="clear-log-btn">Clear Log</button>
+        <h3 class="feedback-title">Feedback Log:</h3>
         <p class="feedback-entry" v-for="(entry, index) in feedbackLog.slice().reverse()" :key="index">
           <span class="timestamp">{{ entry.timestamp }}</span>
           <span class="message">{{ entry.feedback }}</span>
         </p>
       </div>
+    </div>
   
   
     </body>
@@ -157,6 +157,10 @@
       }
     },
     methods: {
+      executeAndSubmit() {
+        this.executeCode();
+        this.submitCode();  
+      },
       async updateExercise(exercise) {
         this.exercise = exercise
         
@@ -332,6 +336,26 @@
   </script>
   
   <style scoped>
+  .frame-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.frame-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.frame-title {
+  font-size: 18px;
+  margin-bottom: 6px;
+}
+
+.frames-and-feedback {
+  display: flex;
+  justify-content: space-between;
+}
     body {
         background-color: rgb(189, 189, 189) !important;
     }
@@ -417,24 +441,22 @@
     display: flex;
     justify-content: space-around;
   }
-  .studentFrame {
-    border: 1px;
-    border-style: solid;
-    border-color: black;
-    background-color: white;
   
-    width: 40vw;
-    height: 50vh;
-  }
-  .professorFrame {
-    border: 1px;
-    border-style: solid;
-    border-color: black;
-    background-color: white;
-  
-    width: 40vw;
-    height: 50vh;
-  }
+  .studentFrame,
+.professorFrame {
+  border: 1px;
+  border-style: solid;
+  border-color: black;
+  background-color: white;
+  margin-right: 20px;
+  width: 35vw;
+  height: 50vh;
+  margin-bottom: 20px;
+}
+
+.studentFrame {
+  margin-left: 10px;
+}
   
   .frameTitles {
     display: flex;
@@ -507,53 +529,43 @@
   }
   
   .feedback-log {
-    width: 80%;
-    margin: 20px auto;
-    margin-bottom: 0px;
-    padding: 20px;
-    background-color: #f8f9fa;
-    border-radius: 5px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    overflow-y: auto;
-    max-height: 300px;
-    overflow-y: auto;
-    max-height: 300px;
-  }
-  
-  .feedback-entry {
-    padding: 10px;
-    margin-bottom: 10px;
-    border-bottom: 1px solid #e0e0e0;
-  }
-  
-  .feedback-entry:last-child {
-    border-bottom: none;
-  }
-  
-  .feedback-entry .timestamp {
-    font-size: 12px;
-    color: #999;
-    margin-bottom: 5px;
-    display: block;
-  }
-  
-  .feedback-entry .message {
-    font-size: 14px;
-    color: #333;
-  }
-  
-  .clear-log-btn {
-    background-color: #545352;
-    border: none;
-    color: white;
-    padding: 5px 10px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 14px;
-    margin: 10px 2px;
-    cursor: pointer;
-    border-radius: 4px;
-  }
+  width: 26%;
+  margin: auto;
+  margin-right: 10px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  max-height: 300px;
+  overflow-y: auto;
+  max-height: 250px;
+}
+
+.feedback-title{
+  margin-top: 0px;
+}
+
+.feedback-entry {
+  padding: 0px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.feedback-entry:last-child {
+  border-bottom: none;
+}
+
+.feedback-entry .timestamp {
+  font-size: 12px;
+  color: #999;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.feedback-entry .message {
+  font-size: 14px;
+  color: #333;
+}
   
   </style>

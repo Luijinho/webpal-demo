@@ -9,87 +9,85 @@
 
 
       <div class="executionBtns">
-        <button :disabled="!this.exercise" class="btns" @click="executeCode">Execute</button>
+        <button :disabled="!this.exercise" class="btns" @click="executeAndSubmit">Execute</button>
         <div class="divider"></div>
-        <button :disabled="!this.exercise" class="btns" @click="submitCode">Submit</button>
-
+        <button :disabled="!feedbackLog.length" @click="clearFeedbackLog" class="btns">Clear Log</button>
       </div>
+
       <div class="title">Webpal Playground</div>
     </header>
     <div class="codeEditors">
-  <div class="codeHTML">
-    <div class="codeEditorWrapper">
-      <label for="htmlFile">HTML Filename:</label>
-      <input id="htmlFile" v-model="htmlFile" type="text">
-      <codemirror
-        v-model="codeHTML"
-        placeholder="HTML goes here..."
-        :style="{ height: '200px', width: '100%', textAlign: 'left', backgroundColor: 'white' }"
-        :autofocus="true"
-        :indent-with-tab="true"
-        :tab-size="4"
-        :extensions="extensionsHTML"
-      />
+    <div class="codeHTML">
+      <div class="codeEditorWrapper">
+        <label for="htmlFile">HTML Filename:</label>
+        <input id="htmlFile" v-model="htmlFile" type="text">
+        <codemirror
+          v-model="codeHTML"
+          placeholder="HTML goes here..."
+          :style="{ height: '200px', width: '100%', textAlign: 'left', backgroundColor: 'white' }"
+          :autofocus="true"
+          :indent-with-tab="true"
+          :tab-size="4"
+          :extensions="extensionsHTML"
+        />
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="codeCSS">
+      <div class="codeEditorWrapper">
+        <label for="cssFile">CSS Filename:</label>
+        <input id="cssFile" v-model="cssFile" type="text">
+        <codemirror
+          v-model="codeCSS"
+          placeholder="CSS goes here..."
+          :style="{ height: '200px', width: '100%', textAlign: 'left', backgroundColor: 'white' }"
+          :autofocus="true"
+          :indent-with-tab="true"
+          :tab-size="4"
+          :extensions="extensionsCSS"
+        />
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="codeJS">
+      <div class="codeEditorWrapper">
+        <label for="jsFile">Javascript Filename:</label>
+        <input id="jsFile" v-model="jsFile" type="text">
+        <codemirror
+          v-model="codeJS"
+          placeholder="Javascript goes here..."
+          :style="{ height: '200px', width: '100%', textAlign: 'left', backgroundColor: 'white' }"
+          :options="{
+            mode: 'javascript',
+            extraKeys: {'Ctrl-Space': 'autocomplete'}
+          }"
+          :autofocus="true"
+          :indent-with-tab="true"
+          :tab-size="4"
+          :extensions="extensionsJS"
+        />
+      </div>
     </div>
   </div>
-  <div class="divider"></div>
-  <div class="codeCSS">
-    <div class="codeEditorWrapper">
-      <label for="cssFile">CSS Filename:</label>
-      <input id="cssFile" v-model="cssFile" type="text">
-      <codemirror
-        v-model="codeCSS"
-        placeholder="CSS goes here..."
-        :style="{ height: '200px', width: '100%', textAlign: 'left', backgroundColor: 'white' }"
-        :autofocus="true"
-        :indent-with-tab="true"
-        :tab-size="4"
-        :extensions="extensionsCSS"
-      />
+    <div class="frames-and-feedback">
+      <div class="frame-container">
+        <div class="frame-wrapper">
+          <div class="frame-title">Attempt</div>
+          <iframe class="studentFrame" srcdoc="" frameborder="0"></iframe>
+        </div>
+        <div class="frame-wrapper">
+          <div class="frame-title">Reference</div>
+          <iframe class="professorFrame" :srcdoc="professorHTML" frameborder="0"></iframe>
+        </div>
+      </div>
+      <div class="feedback-log">
+        <h3 class="feedback-title">Feedback Log:</h3>
+        <p class="feedback-entry" v-for="(entry, index) in feedbackLog.slice().reverse()" :key="index">
+          <span class="timestamp">{{ entry.timestamp }}</span>
+          <span class="message">{{ entry.feedback }}</span>
+        </p>
+      </div>
     </div>
-  </div>
-  <div class="divider"></div>
-  <div class="codeJS">
-    <div class="codeEditorWrapper">
-      <label for="jsFile">Javascript Filename:</label>
-      <input id="jsFile" v-model="jsFile" type="text">
-      <codemirror
-        v-model="codeJS"
-        placeholder="Javascript goes here..."
-        :style="{ height: '200px', width: '100%', textAlign: 'left', backgroundColor: 'white' }"
-        :options="{
-          mode: 'javascript',
-          extraKeys: {'Ctrl-Space': 'autocomplete'}
-        }"
-        :autofocus="true"
-        :indent-with-tab="true"
-        :tab-size="4"
-        :extensions="extensionsJS"
-      />
-    </div>
-  </div>
-</div>
-
-    <div class="frameTitles">
-      <div>Student Frame</div>
-      <div>Teacher Frame</div>
-    </div>
-    <div class="frames">
-      <iframe class="studentFrame" srcdoc="" frameborder="0"></iframe>
-      <iframe class="professorFrame" :srcdoc="professorHTML" frameborder="0"></iframe>
-    </div>
-    
-
-    <div class="feedback-log">
-      <h3>Feedback Log:</h3>
-      <button @click="clearFeedbackLog" class="clear-log-btn">Clear Log</button>
-      <p class="feedback-entry" v-for="(entry, index) in feedbackLog.slice().reverse()" :key="index">
-        <span class="timestamp">{{ entry.timestamp }}</span>
-        <span class="message">{{ entry.feedback }}</span>
-      </p>
-    </div>
-
-
   </body>
 </template>
   
@@ -157,6 +155,10 @@ export default {
     }
   },
   methods: {
+    executeAndSubmit() {
+      this.executeCode();
+      this.submitCode();  
+    },
     async updateExercise(exercise) {
       // Update the page with the new exercise data
       this.exercise = exercise
@@ -327,6 +329,26 @@ export default {
 </script>
 
 <style scoped>
+.frame-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.frame-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.frame-title {
+  font-size: 18px;
+  margin-bottom: 6px;
+}
+
+.frames-and-feedback {
+  display: flex;
+  justify-content: space-between;
+}
 
 header {
   display: flex;
@@ -344,17 +366,7 @@ header {
   flex: 1;
 }
 
-
 .executionBtns{
-  display: flex;
-  position: absolute;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  margin: auto 0;
-}
-
-.backBtn {
   display: flex;
   position: absolute;
   right: 0;
@@ -403,80 +415,20 @@ header {
   float: right;
   max-width: 33%;
 }
-
-.frames {
-  display: flex;
-  justify-content: space-around;
-}
-.studentFrame {
-  border: 1px;
-  border-style: solid;
-  border-color: black;
-  background-color: white;
-
-  width: 40vw;
-  height: 50vh;
-}
+.studentFrame,
 .professorFrame {
   border: 1px;
   border-style: solid;
   border-color: black;
   background-color: white;
-
-  width: 40vw;
+  margin-right: 20px;
+  width: 35vw;
   height: 50vh;
-}
-
-.frameTitles {
-  display: flex;
-  justify-content: space-around;
-
-  font-size: 24px;
-  margin-top: 30px;
-  margin-bottom: 10px;
-}
-
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
-}
-
-.modal p {
-  font-size: 24px;
-  color: black;
   margin-bottom: 20px;
-  text-align: center;
 }
 
-.modal button {
-  font-size: 16px;
-  margin-top: 20px;
-}
-
-.modal-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 80%;
-  height: 60%;
-  background-color: white;
-  border-radius: 5px;
-}
-
-.modal-buttons {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.studentFrame {
+  margin-left: 10px;
 }
 
 .no-exercises-popup {
@@ -498,8 +450,9 @@ header {
 }
 
 .feedback-log {
-  width: 80%;
-  margin: 20px auto;
+  width: 26%;
+  margin: auto;
+  margin-right: 10px;
   padding: 20px;
   background-color: #f8f9fa;
   border-radius: 5px;
@@ -507,11 +460,15 @@ header {
   overflow-y: auto;
   max-height: 300px;
   overflow-y: auto;
-  max-height: 300px;
+  max-height: 250px;
+}
+
+.feedback-title{
+  margin-top: 0px;
 }
 
 .feedback-entry {
-  padding: 10px;
+  padding: 0px;
   margin-bottom: 10px;
   border-bottom: 1px solid #e0e0e0;
 }
@@ -530,20 +487,6 @@ header {
 .feedback-entry .message {
   font-size: 14px;
   color: #333;
-}
-
-.clear-log-btn {
-  background-color: #545352;
-  border: none;
-  color: white;
-  padding: 5px 10px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 14px;
-  margin: 10px 2px;
-  cursor: pointer;
-  border-radius: 4px;
 }
 
 </style>
