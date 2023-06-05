@@ -471,9 +471,8 @@ header {
   border-radius: 5px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
-  max-height: 300px;
   overflow-y: auto;
-  max-height: 250px;
+  height: 44vh;
 }
 
 .feedback-title{
