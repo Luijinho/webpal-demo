@@ -1,7 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import PlaygroundView from '../views/PlaygroundView.vue'
 import PlaygroundWorstView from '../views/PlaygroundWorstView.vue'
-//import AdminView from '../views/AdminView.vue'
+import AdminView from '../views/AdminView.vue'
 
 const routes = [
   {
@@ -16,12 +16,12 @@ const routes = [
     component: PlaygroundWorstView,
     props: true
   },
-  /* {
+  {
     path: '/admin',
     name: 'Admin',
     component: AdminView,
     props: true
-  } */
+  }
 ]
 
 const router = createRouter({
