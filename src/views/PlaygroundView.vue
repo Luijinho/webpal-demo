@@ -9,7 +9,7 @@
 
 
       <div class="executionBtns">
-        <button :disabled="!this.exercise" class="btns" @click="executeAndSubmit">Execute</button>
+        <button :disabled="!this.exercise" class="btns" id="executeButton" @click="executeAndSubmit">Execute</button>
         <div class="divider"></div>
         <button :disabled="!feedbackLog.length" @click="clearFeedbackLog" class="btns">Clear Log</button>
       </div>
@@ -187,7 +187,7 @@ export default {
     },
     async evaluateExercise(id, attemptFiles, previousFeedback) {
       try {
-        const response = await axios.post('http://13.49.130.58:3000/evaluateExercise', {
+        const response = await axios.post('https://www.dcc.fc.up.pt/webpal/api/evaluateExercise', {
           id,
           attemptFiles,
           previousFeedback
@@ -211,7 +211,7 @@ export default {
     },
     async getAllExercises() {
       try {
-        const response = await axios.get('http://13.49.130.58:3000/getAllExercises');
+        const response = await axios.get('https://www.dcc.fc.up.pt/webpal/api/getAllExercises');
         this.exercises = response.data;
       } catch (error) {
         console.error(error);
@@ -245,7 +245,7 @@ export default {
 
     updateLog(logData) {
       const userId = localStorage.getItem('userId');
-      const logEndpoint = 'http://13.49.130.58:3000/log';
+      const logEndpoint = 'https://www.dcc.fc.up.pt/webpal/api/log';
 
       const payload = {
         userId: userId,
@@ -334,7 +334,14 @@ export default {
 
   },
   mounted(){
-    this.getAllExercises()
+    this.getAllExercises().then(() => {
+    // Check if there are any exercises available
+    if (this.exercises.length > 0) {
+      // Select the first exercise in the list
+      const selectedExercise = this.exercises[0];
+      this.updateExercise(selectedExercise);
+    }
+  });
     this.createUserId()
   }
 }

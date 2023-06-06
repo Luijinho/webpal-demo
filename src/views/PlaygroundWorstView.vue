@@ -189,7 +189,7 @@
       },
       async evaluateExercise(id, attemptFiles, previousFeedback) {
         try {
-          const response = await axios.post('http://13.49.130.58:3000/evaluateExerciseWithoutStatic', {
+          const response = await axios.post('https://www.dcc.fc.up.pt/webpal/api/evaluateExerciseWithoutStatic', {
             id,
             attemptFiles,
             previousFeedback
@@ -219,7 +219,7 @@
       },
       async getAllExercises() {
         try {
-          const response = await axios.get('http://13.49.130.58:3000/getAllExercises');
+          const response = await axios.get('https://www.dcc.fc.up.pt/webpal/api/getAllExercises');
           this.exercises = response.data;
         } catch (error) {
           console.error(error);
@@ -253,7 +253,7 @@
   
       updateLog(logData) {
         const userId = localStorage.getItem('userId');
-        const logEndpoint = 'http://13.49.130.58:3000/log';
+        const logEndpoint = 'https://www.dcc.fc.up.pt/webpal/api/log';
   
         const payload = {
           userId: userId,

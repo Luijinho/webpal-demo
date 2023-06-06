@@ -165,7 +165,7 @@
 
         console.log(JSON.parse(jsonData))
         try {
-            const response = await axios.post('http://13.49.130.58:3000/createExercise', {
+            const response = await axios.post('https://www.dcc.fc.up.pt/webpal/api/createExercise', {
             code: jsonData,
             tests: jsTests,
             assignment: assignment,

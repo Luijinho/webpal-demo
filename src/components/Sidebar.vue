@@ -64,7 +64,7 @@
       },
       async getAllExercises() {
         try {
-          const response = await axios.get("http://13.49.130.58:3000/getAllExercises");
+          const response = await axios.get("https://www.dcc.fc.up.pt/webpal/api/getAllExercises");
           this.exercises = response.data.map(exercise => ({
             ...exercise,
             description: exercise.description
@@ -87,7 +87,7 @@
           if (!confirmed) {
             return;
           }
-          await axios.post("http://13.49.130.58:3000/deleteExercise", {
+          await axios.post("https://www.dcc.fc.up.pt/webpal/api/deleteExercise", {
             id: id
           });
           window.location.reload();
@@ -104,7 +104,7 @@
       },
       async fetchExerciseDetails(id) {
         try {
-          const response = await axios.post("http://13.49.130.58:3000/getFullExercise", {
+          const response = await axios.post("https://www.dcc.fc.up.pt/webpal/api/getFullExercise", {
             id: id
           });
           this.$emit('exercise-details-received', response.data);
