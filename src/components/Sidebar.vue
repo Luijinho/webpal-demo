@@ -7,18 +7,18 @@
       </div>
       <div class="sidebar" v-show="showSidebar">
         <button class="close-btn" @click="toggleSidebar">Close</button>
-        <button class="backoffice-btn" @click="backofficeRedirect">Backoffice</button>
+        <!-- <button class="backoffice-btn" @click="backofficeRedirect">Backoffice</button> -->
         <h2>Exercises</h2>
         <ul>
           <li v-for="(exercise, index) in exercises" :key="index" @click="updateExercise(exercise)">
             {{ exercise.assignment }}
               <div class="button-container">
-                <button @click.stop="editExercise(exercise.exerciseID)">
+                <!-- <button @click.stop="editExercise(exercise.exerciseID)">
                   <i class="">Edit</i>
                 </button>
                 <button @click.stop="deleteExercise(exercise.exerciseID)">
                   <i class="">Del</i>
-                </button>
+                </button> -->
                 <button @click.stop="showExerciseDescription(exercise.description)">
                   <i class="">Info</i>
                 </button>
