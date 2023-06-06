@@ -334,14 +334,7 @@ export default {
 
   },
   mounted(){
-    this.getAllExercises().then(() => {
-    // Check if there are any exercises available
-    if (this.exercises.length > 0) {
-      // Select the first exercise in the list
-      const selectedExercise = this.exercises[0];
-      this.updateExercise(selectedExercise);
-    }
-  });
+    this.getAllExercises()
     this.createUserId()
   }
 }
